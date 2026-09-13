@@ -1,5 +1,19 @@
+import PersonalFinance from "./PersonalFinance.jsx"
+import AddTransaction from "./AddTransaction.jsx";
+import { useState } from "react"
+
 function ExpenseTracker(){
-    
+
+    const [balance, setBalance] = useState(2450000);
+    const [income, setIncome] = useState(3000000);
+    const [expense, setExpense] = useState(550000);
+
+    return(
+    <div className="tracker-container">
+        <h1 className="title">Spendly</h1>
+        <PersonalFinance balance={balance} income={income} expense={expense} />
+        <AddTransaction />
+    </div>)
 }
 
 export default ExpenseTracker
