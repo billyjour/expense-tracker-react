@@ -1,14 +1,12 @@
 import { useState } from "react";
 
-function AddTransaction(){
+function AddTransaction({ setTransactions }){
 
     const [name, setName] = useState("");
     const [amount, setAmount] = useState("");
     const [date, setDate] = useState("");
     const [category, setCategory] = useState("food");
     const [type, setType] = useState("expense");
-
-    const [transactions, setTransactions] = useState([]);
 
     const handleAmount = (e) => {
         const value = e.target.value.replace(/\D/g, "");
