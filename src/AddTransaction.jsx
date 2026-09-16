@@ -4,7 +4,13 @@ function AddTransaction({ setTransactions }){
 
     const [name, setName] = useState("");
     const [amount, setAmount] = useState("");
-    const [date, setDate] = useState("");
+    const [date, setDate] = useState(() => {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, "0");
+        const day = String(today.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+    });
     const [category, setCategory] = useState("food");
     const [type, setType] = useState("expense");
 
@@ -26,6 +32,18 @@ function AddTransaction({ setTransactions }){
             date: date
         };
 
+        setName("");
+        setAmount("");
+        setDate(() => {
+                const today = new Date();
+                const year = today.getFullYear();
+                const month = String(today.getMonth() + 1).padStart(2, "0");
+                const day = String(today.getDate()).padStart(2, "0");
+                return `${year}-${month}-${day}`;
+            });
+        setCategory("food");
+        setType("expense");
+
         setTransactions(t => [...t, newTransaction]);
     }
 
@@ -37,11 +55,9 @@ function AddTransaction({ setTransactions }){
                 <label>Name:
                     <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Transaction Name"/>
                 </label>
-                <br />
                 <label>Amount:
                     <input type="text" value={amount} onChange={handleAmount} placeholder="Amount"/>
                 </label>
-                <br />
                 <label>Category:
                     <select value={category} onChange={(e) => setCategory(e.target.value)}>
                         <option value="food">🍔 Food</option>
@@ -52,18 +68,15 @@ function AddTransaction({ setTransactions }){
                         <option value="education">📚 Education</option>
                     </select>
                 </label>
-                <br />
                 <label>Type:
                     <select value={type} onChange={(e) => setType(e.target.value)}>
                         <option value="expense">Expense</option>
                         <option value="income">Income</option>
                     </select>
                 </label>
-                <br />
                 <label>Date:
                     <input type="date" value={date} onChange={(e) =>setDate(e.target.value)}/>
                 </label>
-                <br />
                 <button type="submit">Button</button>
             </form>
         </div>
