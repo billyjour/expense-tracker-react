@@ -8,11 +8,11 @@ function PersonalFinance({balance, income, expense}){
             </div>
 
             <div className="finance-down-container">
-                <div className="finance-info balance">
+                <div className="finance-info income">
                     <h3 className="type-finance">Income</h3>
                     <p className="money">{income.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}</p>
                 </div>                
-                <div className="finance-info balance">
+                <div className="finance-info expense">
                     <h3 className="type-finance">Expense</h3>
                     <p className="money">{expense.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}</p>
                 </div>                
