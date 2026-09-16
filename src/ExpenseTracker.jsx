@@ -13,13 +13,18 @@ function ExpenseTracker(){
     const [search, setSearch] = useState("");
 
     return(
-    <div className="tracker-container">
-        <h1 className="title">Spendly</h1>
-        <PersonalFinance balance={balance} income={income} expense={expense} />
-        <AddTransaction setTransactions={setTransactions} />
-        <Search search={search} setSearch={setSearch} />
-        <ListTransactions transactions={transactions} search={search} />
+    <div className="full-container">
+        <div className="tracker-container">
+            <h1 className="title">Spendly</h1>
+            <PersonalFinance balance={balance} income={income} expense={expense} />
+            <AddTransaction setTransactions={setTransactions} />
+        </div>        
+        <div className="search-container">
+            <Search search={search} setSearch={setSearch} />
+            <ListTransactions transactions={transactions} search={search} />
+        </div>
     </div>
+
     )
 }
 
