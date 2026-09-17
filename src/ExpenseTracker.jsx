@@ -4,6 +4,7 @@ import Search from "./Search.jsx";
 import ListTransactions from "./ListTransactions.jsx";
 import { useState } from "react"
 
+
 function ExpenseTracker(){
 
     const [balance, setBalance] = useState(2450000);
@@ -11,18 +12,47 @@ function ExpenseTracker(){
     const [expense, setExpense] = useState(550000);
     const [transactions, setTransactions] = useState([]);
     const [search, setSearch] = useState("");
-
+    const [category, setCategory] = useState("food");
+    const [sort, setSort] = useState("");
+    
     return(
     <div className="full-container">
         <div className="tracker-container">
             <h1 className="title">Spendly</h1>
-            <PersonalFinance balance={balance} income={income} expense={expense} />
-            <AddTransaction setTransactions={setTransactions} />
-        </div>        
-        <div className="search-container">
-            <Search search={search} setSearch={setSearch} />
-            <ListTransactions transactions={transactions} search={search} />
+
+            <PersonalFinance 
+            balance={balance} 
+            income={income} 
+            expense={expense} />
+
+            <AddTransaction 
+            setTransactions={setTransactions} 
+            category={category} 
+            setCategory={setCategory} />
+            
         </div>
+
+        <div className="right-container">
+            <div className="search-list-container">
+                <div className="search-container">
+                    <Search 
+                    search={search} 
+                    setSearch={setSearch} 
+                    sort={sort} 
+                    setSort={setSort}/>
+                </div>
+                <div className="list-container">
+                    <ListTransactions 
+                    transactions={transactions} 
+                    search={search} />
+                </div>
+            </div>
+            
+            <div className="graph-container">
+                <h2>Statistics</h2>
+            </div>
+        </div>
+
     </div>
 
     )
