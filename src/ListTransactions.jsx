@@ -13,12 +13,18 @@ function ListTransactions({ transactions, search }){
 
     const handleCategory = (c) => {
         switch(c) {
-            case 'food':        return "🍴";
-            case 'utilities':   return "💡";
-            case 'transport':   return "🚗";
-            case 'shopping':    return "🛒";
-            case 'health':      return "🏥";
-            case 'education':   return "📚";
+            case 'food':            return '🍴';
+            case 'utilities':       return '💡';
+            case 'transport':       return '🚗';
+            case 'shopping':        return '🛒';
+            case 'health':          return '🏥';
+            case 'education':       return '📚';
+            case 'salary':          return '💼';
+            case 'freelance':       return '💻';
+            case 'business':        return '🏪';
+            case 'investment':      return '📈';
+            case 'gift':            return '🎁';
+            case 'other-income':    return '💰';
         }
     }
 
@@ -27,14 +33,26 @@ function ListTransactions({ transactions, search }){
         <div>
             <h2>{search === "" ? "Recent Transactions" : "Search Results"}</h2>
 
-            {displayedTransactions.map((transaction) => (
-                <div className={handleCardStyle(transaction.type)} key={transaction.key}>
-                    <span className="category">{handleCategory(transaction.category)}</span>
-                    <span>{transaction.name}</span>
-                    <span>{`${transaction.type === "expense" ? "-" : "+"} ${transaction.amount}`}</span>
-                    <button className="edit-btn">Edit</button>
-                </div>
-            ))}
+            <div className="transaction-scroll">
+                {displayedTransactions.map((transaction) => (
+                    <div className={handleCardStyle(transaction.type)} key={transaction.key}>
+
+                        <span className="left-side"><span className="category">{handleCategory(transaction.category)}</span>{transaction.name}</span>
+                        <span className="mid-side">
+                            <span className="rupiah">
+                                {`${transaction.type === "expense" ? "- Rp " : "+ Rp "}`}
+                            </span>
+                            {`${transaction.amount.toLocaleString('id-ID')}`}
+                        </span>
+                        <div className="adjust-btn">
+                            <button className="edit-btn"><i class="bi bi-pencil-fill"></i></button>
+                            <button className="remove-btn"><i className="bi bi-trash"></i></button>
+                        </div>
+
+                    </div>
+                ))}
+            </div>
+
         </div>
     )
 
