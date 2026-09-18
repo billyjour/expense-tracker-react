@@ -7,9 +7,9 @@ import { useState } from "react"
 
 function ExpenseTracker(){
 
-    const [balance, setBalance] = useState(2450000);
-    const [income, setIncome] = useState(3000000);
-    const [expense, setExpense] = useState(550000);
+    const [balance, setBalance] = useState(200000);
+    const [income, setIncome] = useState(0);
+    const [expense, setExpense] = useState(0);
     const [transactions, setTransactions] = useState([]);
     const [search, setSearch] = useState("");
     const [category, setCategory] = useState("food");
@@ -28,7 +28,10 @@ function ExpenseTracker(){
             <AddTransaction 
             setTransactions={setTransactions} 
             category={category} 
-            setCategory={setCategory} />
+            setCategory={setCategory} 
+            setBalance={setBalance}
+            setIncome={setIncome}
+            setExpense={setExpense}/>
             
         </div>
 

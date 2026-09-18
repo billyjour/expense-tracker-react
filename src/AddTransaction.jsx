@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function AddTransaction({ setTransactions }){
+function AddTransaction({ setTransactions, category, setCategory, setBalance, setIncome, setExpense }){
 
     const [name, setName] = useState("");
     const [amount, setAmount] = useState("");
@@ -11,7 +11,7 @@ function AddTransaction({ setTransactions }){
         const day = String(today.getDate()).padStart(2, "0");
         return `${year}-${month}-${day}`;
     });
-    const [category, setCategory] = useState("food");
+
     const [type, setType] = useState("expense");
 
     const handleAmount = (e) => {
@@ -41,10 +41,18 @@ function AddTransaction({ setTransactions }){
                 const day = String(today.getDate()).padStart(2, "0");
                 return `${year}-${month}-${day}`;
             });
+
         setCategory("food");
         setType("expense");
-
         setTransactions(t => [...t, newTransaction]);
+
+        if (type === "expense"){
+            setBalance(b => b - newTransaction.amount);
+            setExpense(e => e + newTransaction.amount);
+        } else if (type === "income"){
+            setBalance(b => b + newTransaction.amount);
+            setIncome(i => i + newTransaction.amount);
+        }
     }
 
     return(
@@ -60,12 +68,18 @@ function AddTransaction({ setTransactions }){
                 </label>
                 <label>Category:
                     <select value={category} onChange={(e) => setCategory(e.target.value)}>
-                        <option value="food">🍔 Food</option>
-                        <option value="utilities">💡 Utilities</option>
-                        <option value="transport">🚗 Transport</option>
-                        <option value="shopping">🛒 Shopping</option>
-                        <option value="health">🏥 Health</option>
-                        <option value="education">📚 Education</option>
+                        <option value="food">           🍴 Food         </option>
+                        <option value="utilities">      💡 Utilities    </option>
+                        <option value="transport">      🚗 Transport    </option>
+                        <option value="shopping">       🛒 Shopping     </option>
+                        <option value="health">         🏥 Health       </option>
+                        <option value="education">      📚 Education    </option>
+                        <option value="salary">         💼 Salary       </option>
+                        <option value="freelance">      💻 Freelance    </option>
+                        <option value="business">       🏪 Business     </option>
+                        <option value="investment">     📈 Investment   </option>
+                        <option value="gift">           🎁 Gift         </option>
+                        <option value="other-income">   💰 Other        </option>
                     </select>
                 </label>
                 <label>Type:
@@ -77,7 +91,7 @@ function AddTransaction({ setTransactions }){
                 <label>Date:
                     <input type="date" value={date} onChange={(e) =>setDate(e.target.value)}/>
                 </label>
-                <button type="submit">Button</button>
+                <button type="submit">Add</button>
             </form>
         </div>
     );
