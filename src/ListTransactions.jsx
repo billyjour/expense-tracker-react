@@ -1,4 +1,17 @@
-function ListTransactions({ transactions, search }){
+import { useState } from "react";
+import Modal from "./Modal.jsx";
+
+function ListTransactions({ transactions, setTransactions, search }){
+
+    const [viewId, setViewId] = useState(null);
+
+    const handleDeleteData = (id) => {
+        setTransactions(t => t.filter((t) => t.id !== id));
+        setViewId(null);        
+    }
+
+    const selectedTransaction = transactions.find((t) => t.id === viewId);
+
     const filteredTransactions = transactions.filter((t) => 
         t.name.toLowerCase().includes(search.toLowerCase())
     );
@@ -6,6 +19,10 @@ function ListTransactions({ transactions, search }){
     const recentTransactions = transactions.slice(-5).reverse();
 
     const displayedTransactions = search === "" ? recentTransactions : filteredTransactions;
+
+    const toTitleCase = (s) => {
+        return s.toLowerCase().split(/\s+/).map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    }
 
     const handleCardStyle = (s) => {
         return s === "expense" ? "transaction-card expense" : "transaction-card income" 
@@ -35,7 +52,7 @@ function ListTransactions({ transactions, search }){
 
             <div className="transaction-scroll">
                 {displayedTransactions.map((transaction) => (
-                    <div className={handleCardStyle(transaction.type)} key={transaction.key}>
+                    <div className={handleCardStyle(transaction.type)} onClick={() => setViewId(transaction.id)} key={transaction.id}>
 
                         <span className="left-side"><span className="category">{handleCategory(transaction.category)}</span>{transaction.name}</span>
                         <span className="mid-side">
@@ -45,13 +62,24 @@ function ListTransactions({ transactions, search }){
                             {`${transaction.amount.toLocaleString('id-ID')}`}
                         </span>
                         <div className="adjust-btn">
-                            <button className="edit-btn"><i class="bi bi-pencil-fill"></i></button>
-                            <button className="remove-btn"><i className="bi bi-trash"></i></button>
+                            <button className="remove-btn" onClick={(e) => {e.stopPropagation(); handleDeleteData(transaction.id)}}><i className="bi bi-trash"></i></button>
                         </div>
 
                     </div>
                 ))}
             </div>
+
+            <Modal isOpen={viewId !== null} onClose={() => setViewId(null)} onDelete={() => handleDeleteData(viewId)} >
+                {selectedTransaction && (
+                    <>
+                        <h2>{selectedTransaction.name}</h2>
+                        <p className="p-justify-content">Amount :   <span>Rp {selectedTransaction.amount.toLocaleString('id-ID')}</span></p>
+                        <p className="p-justify-content">Category : <span>{`${handleCategory(selectedTransaction.category)} ${toTitleCase(selectedTransaction.category)}`}</span></p>
+                        <p className="p-justify-content">Type :     <span className={selectedTransaction.type === "expense" ? "expense-desc" : "income-desc"}>{toTitleCase(selectedTransaction.type)}</span></p>
+                        <p>{selectedTransaction.date}</p>
+                    </>
+                )}
+            </Modal>
 
         </div>
     )
