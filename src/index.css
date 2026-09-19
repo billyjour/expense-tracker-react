@@ -321,7 +321,7 @@ button[type="submit"]:hover {
 }
 
 .left-side {
-  width: 25%;
+  width: 30%;
 }
 
 .category {
@@ -329,13 +329,13 @@ button[type="submit"]:hover {
   font-size: 1em;
   border-radius: 8px;
   padding: 1px;
-  margin-right: 4px;
+  margin-right: 8px;
   background-color: rgba(0, 0, 0, 0.4);
   border: 1px solid whitesmoke;  
 }
 
 .mid-side {
-  width: 18%;
+  width: 14%;
   display: flex;
   justify-content: space-between;
 }
@@ -347,7 +347,6 @@ button[type="submit"]:hover {
   gap: 8px;
 }
 
-.adjust-btn .edit-btn, 
 .adjust-btn .remove-btn {
   background-color: rgba(0, 0, 0, 0.4);
   border: 1px solid whitesmoke;
@@ -356,7 +355,86 @@ button[type="submit"]:hover {
   border-radius: 8px;
   padding: 4px 6px;
   cursor: pointer;
+}
 
+.adjust-btn .remove-btn:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-pop-up-container {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-pop-up {
+  background-color: rgba(109, 109, 109, 0.8);
+  color: whitesmoke;
+  font-weight: bold;
+  padding: 20px;
+  width: 25%;
+  border-radius: 20px;
+}
+
+.modal-pop-up .p-justify-content {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.expense-desc {
+  background-color: rgb(129, 15, 0);
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.income-desc {
+  background-color: rgba(91, 152, 0, 0.785);
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.modal-btns {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.modal-close-btn {
+  padding: 8px 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  border-radius: 8px;
+}
+
+.modal-close-btn:hover {
+  transform: scale(1.05);
+  opacity: 0.7;
+}
+
+.modal-del-btn {
+  background-color: rgba(255, 0, 0, 0.7);
+  color: whitesmoke;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;   
+  transition: all 0.2s ease;
+}
+
+.modal-del-btn:hover {
+  transform: scale(1.05);
+  opacity: 0.7;
 }
 
 .graph-container {
