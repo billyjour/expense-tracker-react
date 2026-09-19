@@ -23,35 +23,37 @@ function AddTransaction({ setTransactions, category, setCategory, setBalance, se
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const newTransaction = {
-            id: Date.now(),
-            name: name,
-            amount: Number(amount.replace(/\./g, "")),
-            category: category,
-            type: type,
-            date: date
-        };
+        if (name !== "" && amount !== ""){
+            const newTransaction = {
+                id: Date.now(),
+                name: name,
+                amount: Number(amount.replace(/\./g, "")),
+                category: category,
+                type: type,
+                date: date
+            };
 
-        setName("");
-        setAmount("");
-        setDate(() => {
-                const today = new Date();
-                const year = today.getFullYear();
-                const month = String(today.getMonth() + 1).padStart(2, "0");
-                const day = String(today.getDate()).padStart(2, "0");
-                return `${year}-${month}-${day}`;
-            });
+            setName("");
+            setAmount("");
+            setDate(() => {
+                    const today = new Date();
+                    const year = today.getFullYear();
+                    const month = String(today.getMonth() + 1).padStart(2, "0");
+                    const day = String(today.getDate()).padStart(2, "0");
+                    return `${year}-${month}-${day}`;
+                });
 
-        setCategory("food");
-        setType("expense");
-        setTransactions(t => [...t, newTransaction]);
+            setCategory("food");
+            setType("expense");
+            setTransactions(t => [...t, newTransaction]);
 
-        if (type === "expense"){
-            setBalance(b => b - newTransaction.amount);
-            setExpense(e => e + newTransaction.amount);
-        } else if (type === "income"){
-            setBalance(b => b + newTransaction.amount);
-            setIncome(i => i + newTransaction.amount);
+            if (type === "expense"){
+                setBalance(b => b - newTransaction.amount);
+                setExpense(e => e + newTransaction.amount);
+            } else if (type === "income"){
+                setBalance(b => b + newTransaction.amount);
+                setIncome(i => i + newTransaction.amount);
+            }
         }
     }
 
@@ -61,10 +63,10 @@ function AddTransaction({ setTransactions, category, setCategory, setBalance, se
 
             <form onSubmit={handleSubmit}>
                 <label>Name:
-                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Transaction Name"/>
+                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Transaction Name" required/>
                 </label>
                 <label>Amount:
-                    <input type="text" value={amount} onChange={handleAmount} placeholder="Amount"/>
+                    <input type="text" value={amount} onChange={handleAmount} placeholder="Amount" required/>
                 </label>
                 <label>Category:
                     <select value={category} onChange={(e) => setCategory(e.target.value)}>
