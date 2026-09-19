@@ -47,6 +47,7 @@ function ExpenseTracker(){
                 <div className="list-container">
                     <ListTransactions 
                     transactions={transactions} 
+                    setTransactions={setTransactions}
                     search={search} />
                 </div>
             </div>
