@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Modal from "./Modal.jsx";
 
-function ListTransactions({ transactions, setTransactions, search }){
+function ListTransactions({ transactions, setTransactions, search, setBalance, setIncome, setExpense }){
 
     const [viewId, setViewId] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -37,9 +37,30 @@ function ListTransactions({ transactions, setTransactions, search }){
                 date: editData.date
             };
 
+            if (selectedTransaction.type === savedData.type && 
+                savedData.type === "expense"){
+                setExpense(e => e - selectedTransaction.amount + savedData.amount);
+                setBalance(e => e + selectedTransaction.amount - savedData.amount);
+            } else if (selectedTransaction.type === savedData.type && 
+                savedData.type === "income"){
+                setIncome(e => e - selectedTransaction.amount + savedData.amount);
+                setBalance(e => e - selectedTransaction.amount + savedData.amount);
+            } else if (selectedTransaction.type === "expense" &&
+                savedData.type === "income"){
+                setExpense(e => e - selectedTransaction.amount);
+                setIncome(e => e + savedData.amount);
+                setBalance(e => e + selectedTransaction.amount + savedData.amount);
+            } else if (selectedTransaction.type === "income" &&
+                savedData.type === "expense"){
+                setIncome(e => e - selectedTransaction.amount);
+                setExpense(e => e + savedData.amount);
+                setBalance(e => e - selectedTransaction.amount - savedData.amount);
+            }
+
             setTransactions(t => 
                 t.map(transaction => {
                     if (transaction.id === viewId){
+
                         return savedData;
                     } else {
                         return transaction;
