@@ -31,7 +31,7 @@ function ExpenseTracker(){
             setCategory={setCategory} 
             setBalance={setBalance}
             setIncome={setIncome}
-            setExpense={setExpense}/>
+            setExpense={setExpense} />
             
         </div>
 
@@ -42,13 +42,16 @@ function ExpenseTracker(){
                     search={search} 
                     setSearch={setSearch} 
                     sort={sort} 
-                    setSort={setSort}/>
+                    setSort={setSort} />
                 </div>
                 <div className="list-container">
                     <ListTransactions 
                     transactions={transactions} 
                     setTransactions={setTransactions}
-                    search={search} />
+                    search={search} 
+                    setBalance={setBalance}
+                    setIncome={setIncome}
+                    setExpense={setExpense} />
                 </div>
             </div>
             
