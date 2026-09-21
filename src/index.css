@@ -400,13 +400,13 @@ button[type="submit"]:hover {
 
 .view-transaction input,
 .view-transaction select {
-  width: 45%;
-  height: 25px;
+  width: 85%;
+  height: 30px;
   font-size: 0.9em;
   font-weight: bold;
   outline: 0;
   border: 1px solid whitesmoke;
-  border-radius: 12px;
+  border-radius: 8px;
   padding-left: 12px;
 }
 
@@ -427,6 +427,7 @@ button[type="submit"]:hover {
 .modal-btns {
   display: flex;
   justify-content: flex-end;
+  margin-top: 20px;
   gap: 8px;
 }
 
