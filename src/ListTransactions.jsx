@@ -26,6 +26,30 @@ function ListTransactions({ transactions, setTransactions, search }){
         setIsEditing(true);
     }
 
+    const handleSaveData = () => {
+        if (editData.name !== "" && editData.amount !== ""){
+            const savedData = {
+                id: viewId,
+                name: editData.name,
+                amount: Number(editData.amount.replace(/\./g, "")),
+                category: editData.category,
+                type: editData.type,
+                date: editData.date
+            };
+
+            setTransactions(t => 
+                t.map(transaction => {
+                    if (transaction.id === viewId){
+                        return savedData;
+                    } else {
+                        return transaction;
+                    }
+                })
+            );
+        }
+        setIsEditing(false);
+    }
+
     const handleData = (e) => {
         const {name, value} = e.target;
         setEditData(data => ({...data, [name] : value}));
@@ -64,18 +88,18 @@ function ListTransactions({ transactions, setTransactions, search }){
 
     const handleCategory = (c) => {
         switch(c) {
-            case 'food':            return '🍴';
-            case 'utilities':       return '💡';
-            case 'transport':       return '🚗';
-            case 'shopping':        return '🛒';
-            case 'health':          return '🏥';
-            case 'education':       return '📚';
-            case 'salary':          return '💼';
-            case 'freelance':       return '💻';
-            case 'business':        return '🏪';
-            case 'investment':      return '📈';
-            case 'gift':            return '🎁';
-            case 'other-income':    return '💰';
+            case 'food':         return '🍴';
+            case 'utilities':    return '💡';
+            case 'transport':    return '🚗';
+            case 'shopping':     return '🛒';
+            case 'health':       return '🏥';
+            case 'education':    return '📚';
+            case 'salary':       return '💼';
+            case 'freelance':    return '💻';
+            case 'business':     return '🏪';
+            case 'investment':   return '📈';
+            case 'gift':         return '🎁';
+            case 'other-income': return '💰';
         }
     }
 
@@ -109,6 +133,7 @@ function ListTransactions({ transactions, setTransactions, search }){
                 onDelete={() => handleDeleteData(viewId)} 
                 onEdit={handleEditData}
                 isEditing={isEditing}
+                onSave={handleSaveData}
             >
                 {selectedTransaction && (
                     <>  
