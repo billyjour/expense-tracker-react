@@ -49,6 +49,7 @@ function ExpenseTracker(){
                     transactions={transactions} 
                     setTransactions={setTransactions}
                     search={search} 
+                    sort={sort}
                     setBalance={setBalance}
                     setIncome={setIncome}
                     setExpense={setExpense} />
