@@ -335,7 +335,7 @@ button[type="submit"]:hover {
 }
 
 .mid-side {
-  width: 14%;
+  width: 20%;
   display: flex;
   justify-content: space-between;
 }
