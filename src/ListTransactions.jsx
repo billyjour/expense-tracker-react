@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Modal from "./Modal.jsx";
 
-function ListTransactions({ transactions, setTransactions, search, setBalance, setIncome, setExpense }){
+function ListTransactions({ transactions, setTransactions, search, sort, setBalance, setIncome, setExpense }){
 
     const [viewId, setViewId] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -13,6 +13,52 @@ function ListTransactions({ transactions, setTransactions, search, setBalance, s
         type: "",
         date: ""
     });
+
+    const sortTransaction = (allTransactions, sortBy) => {
+        switch(sortBy){
+            case 'all':
+                return allTransactions;
+            case 'newest':
+                return [...allTransactions].sort((a,b) => new Date(b.date) - new Date(a.date));
+            case 'oldest':
+                return [...allTransactions].sort((a,b) => new Date(a.date) - new Date(b.date));
+            case 'highest':
+                return [...allTransactions].sort((a,b) => b.amount - a.amount);
+            case 'lowest':
+                return [...allTransactions].sort((a,b) => a.amount - b.amount);
+            case 'expense':
+                return allTransactions.filter(t => t.type === 'expense');
+            case 'income':
+                return allTransactions.filter(t => t.type === 'income');
+            default:
+                return allTransactions;
+        }
+    }
+
+    const getTransactionTitle = () => {
+        if (search !== "") {
+            return "Search Results";
+        }
+    
+        switch (sort) {
+            case "expense":
+                return "Expense Transactions";
+            case "income":
+                return "Income Transactions";
+            case "newest":
+                return "Newest Transactions";
+            case "oldest":
+                return "Oldest Transactions";
+            case "highest":
+                return "Highest Transactions";
+            case "lowest":
+                return "Lowest Transactions";
+            case "all":
+                return "All Transactions";
+            default:
+                return "Recent Transactions";
+        }
+    };    
 
     const handleEditData = () => {
         setEditData({
@@ -97,7 +143,18 @@ function ListTransactions({ transactions, setTransactions, search, setBalance, s
 
     const recentTransactions = transactions.slice(-5).reverse();
 
-    const displayedTransactions = search === "" ? recentTransactions : filteredTransactions;
+    const sortedTransactions = sortTransaction(transactions, sort);
+
+    // const displayedTransactions = search === "" ? recentTransactions : filteredTransactions;
+    let displayedTransactions;
+
+    if (search === ""){
+        if (sort !== "") {
+            displayedTransactions = sortedTransactions;
+        } else displayedTransactions = recentTransactions;
+    } else {
+        displayedTransactions = filteredTransactions;
+    }
 
     // const toTitleCase = (s) => {
     //     return s.toLowerCase().split(/\s+/).map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
@@ -127,7 +184,8 @@ function ListTransactions({ transactions, setTransactions, search, setBalance, s
 
     return(
         <div>
-            <h2>{search === "" ? "Recent Transactions" : "Search Results"}</h2>
+            <h2>{getTransactionTitle()}</h2>
+            
 
             <div className="transaction-scroll">
                 {displayedTransactions.map((transaction) => (
