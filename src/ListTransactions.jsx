@@ -88,27 +88,24 @@ function ListTransactions({ transactions, setTransactions, search, sort, filter,
 
             if (selectedTransaction.type === savedData.type && savedData.type === "expense"){
                 setExpense(e => e - selectedTransaction.amount + savedData.amount);
-                setBalance(e => e + selectedTransaction.amount - savedData.amount);
+                setBalance(b => b + selectedTransaction.amount - savedData.amount);
             } else if (selectedTransaction.type === savedData.type && savedData.type === "income"){
-                setIncome(e => e - selectedTransaction.amount + savedData.amount);
-                setBalance(e => e - selectedTransaction.amount + savedData.amount);
+                setIncome(i => i - selectedTransaction.amount + savedData.amount);
+                setBalance(b => b - selectedTransaction.amount + savedData.amount);
             } else if (selectedTransaction.type === "expense" && savedData.type === "income"){
                 setExpense(e => e - selectedTransaction.amount);
-                setIncome(e => e + savedData.amount);
-                setBalance(e => e + selectedTransaction.amount + savedData.amount);
+                setIncome(i => i + savedData.amount);
+                setBalance(b => b + selectedTransaction.amount + savedData.amount);
             } else if (selectedTransaction.type === "income" && savedData.type === "expense"){
-                setIncome(e => e - selectedTransaction.amount);
+                setIncome(i => i - selectedTransaction.amount);
                 setExpense(e => e + savedData.amount);
-                setBalance(e => e - selectedTransaction.amount - savedData.amount);
+                setBalance(b => b - selectedTransaction.amount - savedData.amount);
             }
 
             setTransactions(t => 
                 t.map(transaction => {
-                    if (transaction.id === viewId){
-                        return savedData;
-                    } else {
-                        return transaction;
-                    }
+                    if (transaction.id === viewId) return savedData;
+                    else return transaction;
                 })
             );
         }
@@ -129,6 +126,14 @@ function ListTransactions({ transactions, setTransactions, search, sort, filter,
     };
 
     const handleDeleteData = (id) => {
+        const deletedData = transactions.find((t) => t.id === id);        
+        if (deletedData.type === 'income'){
+            setIncome(i => i - deletedData.amount);
+            setBalance(b => b - deletedData.amount);
+        } else {
+            setExpense(e => e - deletedData.amount);
+            setBalance(b => b + deletedData.amount);
+        }
         setTransactions(t => t.filter((t) => t.id !== id));
         setViewId(null);        
     };
@@ -141,7 +146,6 @@ function ListTransactions({ transactions, setTransactions, search, sort, filter,
 
     const recentTransactions = transactions.slice(-5).reverse();
 
-    
 
     const filteredCategoryTransactions = filterCategory(transactions, filter);
     const sortedTransactions = sortTransaction(filteredCategoryTransactions, sort);
