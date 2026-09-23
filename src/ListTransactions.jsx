@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Modal from "./Modal.jsx";
 
-function ListTransactions({ transactions, setTransactions, search, sort, setBalance, setIncome, setExpense }){
+function ListTransactions({ transactions, setTransactions, search, sort, filter, setBalance, setIncome, setExpense }){
 
     const [viewId, setViewId] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -16,49 +16,52 @@ function ListTransactions({ transactions, setTransactions, search, sort, setBala
 
     const sortTransaction = (allTransactions, sortBy) => {
         switch(sortBy){
-            case 'all':
-                return allTransactions;
-            case 'newest':
-                return [...allTransactions].sort((a,b) => new Date(b.date) - new Date(a.date));
-            case 'oldest':
-                return [...allTransactions].sort((a,b) => new Date(a.date) - new Date(b.date));
-            case 'highest':
-                return [...allTransactions].sort((a,b) => b.amount - a.amount);
-            case 'lowest':
-                return [...allTransactions].sort((a,b) => a.amount - b.amount);
-            case 'expense':
-                return allTransactions.filter(t => t.type === 'expense');
-            case 'income':
-                return allTransactions.filter(t => t.type === 'income');
-            default:
-                return allTransactions;
+            case 'all':     return allTransactions;
+            case 'newest':  return [...allTransactions].sort((a,b) => new Date(b.date) - new Date(a.date));
+            case 'oldest':  return [...allTransactions].sort((a,b) => new Date(a.date) - new Date(b.date));
+            case 'highest': return [...allTransactions].sort((a,b) => b.amount - a.amount);
+            case 'lowest':  return [...allTransactions].sort((a,b) => a.amount - b.amount);
+            case 'expense': return allTransactions.filter(t => t.type === 'expense');
+            case 'income':  return allTransactions.filter(t => t.type === 'income');
+            default:        return allTransactions;
         }
     }
 
     const getTransactionTitle = () => {
-        if (search !== "") {
-            return "Search Results";
-        }
-    
+        if (search !== "")  return "Search Results";
         switch (sort) {
-            case "expense":
-                return "Expense Transactions";
-            case "income":
-                return "Income Transactions";
-            case "newest":
-                return "Newest Transactions";
-            case "oldest":
-                return "Oldest Transactions";
-            case "highest":
-                return "Highest Transactions";
-            case "lowest":
-                return "Lowest Transactions";
-            case "all":
-                return "All Transactions";
-            default:
-                return "Recent Transactions";
+            case "expense":     return "Expense Transactions";
+            case "income":      return "Income Transactions";
+            case "newest":      return "Newest Transactions";
+            case "oldest":      return "Oldest Transactions";
+            case "highest":     return "Highest Transactions";
+            case "lowest":      return "Lowest Transactions";
+            case "all":         return "All Transactions";
+            default:            return "Recent Transactions";
         }
     };    
+
+
+    const filterCategory = (allTransactions, filterBy) => {
+        if (filterBy === "") return allTransactions;
+
+        return allTransactions.filter(t => t.category === filterBy)
+        // switch(filterBy){
+        //     case 'food':        return allTransactions.filter(t => t.category === 'food');
+        //     case 'utilities':   return allTransactions.filter(t => t.category === 'utilities');
+        //     case 'transport':   return allTransactions.filter(t => t.category === 'transport');
+        //     case 'shopping':    return allTransactions.filter(t => t.category === 'shopping');
+        //     case 'health':      return allTransactions.filter(t => t.category === 'health');
+        //     case 'education':   return allTransactions.filter(t => t.category === 'education');
+        //     case 'salary':      return allTransactions.filter(t => t.category === 'salary');
+        //     case 'freelance':   return allTransactions.filter(t => t.category === 'freelance');
+        //     case 'business':    return allTransactions.filter(t => t.category === 'business');
+        //     case 'investment':  return allTransactions.filter(t => t.category === 'investment');
+        //     case 'gift':        return allTransactions.filter(t => t.category === 'gift');
+        //     case 'other-income':return allTransactions.filter(t => t.category === 'other-income');
+        //     default:            return allTransactions;            
+        // }
+    }
 
     const handleEditData = () => {
         setEditData({
@@ -83,21 +86,17 @@ function ListTransactions({ transactions, setTransactions, search, sort, setBala
                 date: editData.date
             };
 
-            if (selectedTransaction.type === savedData.type && 
-                savedData.type === "expense"){
+            if (selectedTransaction.type === savedData.type && savedData.type === "expense"){
                 setExpense(e => e - selectedTransaction.amount + savedData.amount);
                 setBalance(e => e + selectedTransaction.amount - savedData.amount);
-            } else if (selectedTransaction.type === savedData.type && 
-                savedData.type === "income"){
+            } else if (selectedTransaction.type === savedData.type && savedData.type === "income"){
                 setIncome(e => e - selectedTransaction.amount + savedData.amount);
                 setBalance(e => e - selectedTransaction.amount + savedData.amount);
-            } else if (selectedTransaction.type === "expense" &&
-                savedData.type === "income"){
+            } else if (selectedTransaction.type === "expense" && savedData.type === "income"){
                 setExpense(e => e - selectedTransaction.amount);
                 setIncome(e => e + savedData.amount);
                 setBalance(e => e + selectedTransaction.amount + savedData.amount);
-            } else if (selectedTransaction.type === "income" &&
-                savedData.type === "expense"){
+            } else if (selectedTransaction.type === "income" && savedData.type === "expense"){
                 setIncome(e => e - selectedTransaction.amount);
                 setExpense(e => e + savedData.amount);
                 setBalance(e => e - selectedTransaction.amount - savedData.amount);
@@ -106,7 +105,6 @@ function ListTransactions({ transactions, setTransactions, search, sort, setBala
             setTransactions(t => 
                 t.map(transaction => {
                     if (transaction.id === viewId){
-
                         return savedData;
                     } else {
                         return transaction;
@@ -143,13 +141,15 @@ function ListTransactions({ transactions, setTransactions, search, sort, setBala
 
     const recentTransactions = transactions.slice(-5).reverse();
 
-    const sortedTransactions = sortTransaction(transactions, sort);
+    
 
+    const filteredCategoryTransactions = filterCategory(transactions, filter);
+    const sortedTransactions = sortTransaction(filteredCategoryTransactions, sort);
     // const displayedTransactions = search === "" ? recentTransactions : filteredTransactions;
     let displayedTransactions;
 
     if (search === ""){
-        if (sort !== "") {
+        if (filter !== "" || sort !== "") {
             displayedTransactions = sortedTransactions;
         } else displayedTransactions = recentTransactions;
     } else {
@@ -185,8 +185,6 @@ function ListTransactions({ transactions, setTransactions, search, sort, setBala
     return(
         <div>
             <h2>{getTransactionTitle()}</h2>
-            
-
             <div className="transaction-scroll">
                 {displayedTransactions.map((transaction) => (
                     <div className={handleCardStyle(transaction.type)} onClick={() => setViewId(transaction.id)} key={transaction.id}>
