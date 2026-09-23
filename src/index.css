@@ -219,6 +219,11 @@ button[type="submit"]:hover {
   height: 50%;
 }
 
+.search-list-container select {
+  font-weight: bold;
+  width: 40%;
+}
+
 .search-list-container input[type="text"] {
   margin: 20px;
   width: 75%;
