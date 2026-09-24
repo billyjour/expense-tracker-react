@@ -2,13 +2,14 @@ import PersonalFinance from "./PersonalFinance.jsx"
 import AddTransaction from "./AddTransaction.jsx";
 import Search from "./Search.jsx";
 import ListTransactions from "./ListTransactions.jsx";
+import Statistics from "./Statistics.jsx";
 import { useState, useEffect } from "react"
 
 
 function ExpenseTracker(){
 
     const [balance, setBalance] =   useState(() => {return Number(localStorage.getItem('balance')) || 200000});
-    const [income, setIncome] =     useState(() => {return Number(localStorage.getItem('income') ) || 0});
+    const [income, setIncome] =     useState(() => {return Number(localStorage.getItem('income' )) || 0});
     const [expense, setExpense] =   useState(() => {return Number(localStorage.getItem('expense')) || 0});
     const [transactions, setTransactions] = useState(() => {
         const savedTransactions = localStorage.getItem('transactions');
@@ -18,6 +19,30 @@ function ExpenseTracker(){
     const [category, setCategory] = useState("food");
     const [sort, setSort] = useState("");
     const [filter, setFilter] = useState("");
+
+    const expenseData = transactions.reduce((acc, transaction) => {
+        if (transaction.type === 'expense') {
+            acc[transaction.category] = (acc[transaction.category] || 0) + transaction.amount;
+        }
+        return acc;
+    }, {});
+
+    const expenseChartData = Object.entries(expenseData).map(([c, a]) => ({
+        category: c,
+        amount: a
+    }));
+
+    const incomeData = transactions.reduce((acc, transaction) => {
+        if (transaction.type === 'income') {
+            acc[transaction.category] = (acc[transaction.category] || 0) + transaction.amount;
+        }
+        return acc;
+    }, {});
+
+    const incomeChartData = Object.entries(incomeData).map(([c, a]) => ({
+        category: c,
+        amount: a
+    }));
     
     useEffect(() => {
         localStorage.setItem('transactions', JSON.stringify(transactions));
@@ -70,7 +95,9 @@ function ExpenseTracker(){
             </div>
             
             <div className="graph-container">
-                <h2>Statistics</h2>
+                <Statistics 
+                expenseChartData={expenseChartData}
+                incomeChartData={incomeChartData} />
             </div>
         </div>
 
