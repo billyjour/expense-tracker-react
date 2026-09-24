@@ -491,3 +491,26 @@ button[type="submit"]:hover {
   border-radius: 12px;  
   height: 50%;
 }
+
+.graph-container h3 {
+  margin: 2px 4px 10px;
+  background-color: transparent;
+}
+
+.graph-container .charts {
+  display: flex;
+  width: 100%;
+  gap: 20px;
+}
+
+.graph-container .charts .chart {
+  width: 50%;
+  text-align: center;
+}
+
+.recharts-wrapper:focus, 
+.recharts-surface:focus,
+.recharts-sector:focus {
+  outline: none;
+}
+
