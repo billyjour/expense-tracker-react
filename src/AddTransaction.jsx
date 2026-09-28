@@ -62,13 +62,18 @@ function AddTransaction({ setTransactions, category, setCategory, setBalance, se
             <h2>Add Transaction</h2>
 
             <form onSubmit={handleSubmit}>
-                <label>Name:
-                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Transaction Name" required/>
-                </label>
-                <label>Amount:
+                <div className="add-transaction-form-label">
+                    <label>Name</label>
+                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g: Family Dinner" required/>
+                </div>
+
+                <div className="add-transaction-form-label">
+                    <label>Amount</label>
                     <input type="text" value={amount} onChange={handleAmount} placeholder="Amount" required/>
-                </label>
-                <label>Category:
+                </div>
+
+                <div className="add-transaction-form-label">
+                    <label>Category</label>
                     <select value={category} onChange={(e) => setCategory(e.target.value)}>
                         <option value="food">           🍴 Food         </option>
                         <option value="utilities">      💡 Utilities    </option>
@@ -83,16 +88,25 @@ function AddTransaction({ setTransactions, category, setCategory, setBalance, se
                         <option value="gift">           🎁 Gift         </option>
                         <option value="other-income">   💰 Other        </option>
                     </select>
-                </label>
-                <label>Type:
-                    <select value={type} onChange={(e) => setType(e.target.value)}>
+                </div>
+
+                <div className="add-transaction-form-label">
+                    <label>Type</label>
+                    {/* <select value={type} onChange={(e) => setType(e.target.value)}>
                         <option value="expense">Expense</option>
                         <option value="income">Income</option>
-                    </select>
-                </label>
-                <label>Date:
+                    </select> */}
+                    <div className="onclick-btns">
+                        <button type="button" onClick={() => setType("income")} className={`income-btn ${type === "income" ? "fill" : ""}`} >Income</button>
+                        <button type="button" onClick={() => setType("expense")} className={`expense-btn ${type === "expense" ? "fill" : ""}`}>Expense</button>
+                    </div>
+                </div>
+
+                <div className="add-transaction-form-date">                
+                    <label>Date</label>
                     <input type="date" value={date} onChange={(e) =>setDate(e.target.value)}/>
-                </label>
+                </div>
+                
                 <button type="submit">Add</button>
             </form>
         </div>
