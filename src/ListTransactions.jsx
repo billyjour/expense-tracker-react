@@ -1,7 +1,8 @@
 import { useState } from "react";
+import Search from "./Search.jsx";
 import Modal from "./Modal.jsx";
 
-function ListTransactions({ transactions, setTransactions, search, sort, filter, setBalance, setIncome, setExpense }){
+function ListTransactions({ transactions, setTransactions, search, setSearch, sort, setSort, filter, setFilter, setBalance, setIncome, setExpense }){
 
     const [viewId, setViewId] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -150,19 +151,18 @@ function ListTransactions({ transactions, setTransactions, search, sort, filter,
     const filteredCategoryTransactions = filterCategory(transactions, filter);
     const sortedTransactions = sortTransaction(filteredCategoryTransactions, sort);
     // const displayedTransactions = search === "" ? recentTransactions : filteredTransactions;
+    
     let displayedTransactions;
 
     if (search === ""){
-        if (filter !== "" || sort !== "") {
-            displayedTransactions = sortedTransactions;
-        } else displayedTransactions = recentTransactions;
-    } else {
-        displayedTransactions = filteredTransactions;
-    }
+        if (filter !== "" || sort !== "") displayedTransactions = sortedTransactions;
+        else displayedTransactions = recentTransactions;
+    } else displayedTransactions = filteredTransactions;
+    
 
-    // const toTitleCase = (s) => {
-    //     return s.toLowerCase().split(/\s+/).map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-    // }
+    const toTitleCase = (s) => {
+        return s.toLowerCase().split(/\s+/).map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    }
 
     const handleCardStyle = (s) => {
         return s === "expense" ? "transaction-card expense" : "transaction-card income" 
@@ -170,39 +170,87 @@ function ListTransactions({ transactions, setTransactions, search, sort, filter,
 
     const handleCategory = (c) => {
         switch(c) {
-            case 'food':         return '🍴';
-            case 'utilities':    return '💡';
-            case 'transport':    return '🚗';
-            case 'shopping':     return '🛒';
-            case 'health':       return '🏥';
-            case 'education':    return '📚';
-            case 'salary':       return '💼';
-            case 'freelance':    return '💻';
-            case 'business':     return '🏪';
-            case 'investment':   return '📈';
-            case 'gift':         return '🎁';
-            case 'other-income': return '💰';
+            case 'food':         return <i class="bi bi-fork-knife"></i>;
+            case 'utilities':    return <i class="bi bi-lightbulb-fill"></i>;
+            case 'transport':    return <i class="bi bi-car-front-fill"></i>;
+            case 'shopping':     return <i class="bi bi-cart-fill"></i>;
+            case 'health':       return <i class="bi bi-hospital-fill"></i>;
+            case 'education':    return <i class="bi bi-book-fill"></i>;
+            case 'salary':       return <i class="bi bi-bank2"></i>;
+            case 'freelance':    return <i class="bi bi-laptop-fill"></i>;
+            case 'business':     return <i class="bi bi-buildings-fill"></i>
+            case 'investment':   return <i class="bi bi-bar-chart-fill"></i>
+            case 'gift':         return <i class="bi bi-gift-fill"></i>;
+            case 'other-income': return <i class="bi bi-piggy-bank-fill"></i>;
         }
+    }
+
+    const handleDate = (d) => {
+        const dateArray = d.split("-");
+        let day, month, year;
+        day = dateArray[2];
+        month = dateArray[1];
+        year = dateArray[0];
+    
+        switch(month) {
+            case "01" : month = "Jan"; break; 
+            case "02" : month = "Feb"; break;      
+            case "03" : month = "Mar"; break;      
+            case "04" : month = "Apr"; break;      
+            case "05" : month = "May"; break;      
+            case "06" : month = "Jun"; break;      
+            case "07" : month = "Jul"; break;      
+            case "08" : month = "Aug"; break;      
+            case "09" : month = "Sep"; break;      
+            case "10" : month = "Oct"; break;      
+            case "11" : month = "Nov"; break;       
+            case "12" : month = "Dec"; break;           
+        }
+
+        return `${month} ${day}, ${year}`;
     }
 
 
     return(
-        <div>
-            <h2>{getTransactionTitle()}</h2>
+        <div>            
+            <div className="search-container" id="list-transactions">
+                <h2>{getTransactionTitle()}</h2>
+                <Search 
+                    search={search} 
+                    setSearch={setSearch} 
+                    sort={sort} 
+                    setSort={setSort}
+                    filter={filter} 
+                    setFilter={setFilter}
+                />
+            </div>            
             <div className="transaction-scroll">
+                <div className="transaction-header">
+                    <span className="transaction-name">Name</span>
+                    <span className="transaction-category">Category</span>
+                    <span className="transaction-type">Type</span>
+                    <span className="transaction-date">Date</span>
+                    <span className="transaction-amount">Amount</span>
+                </div>
+
                 {displayedTransactions.map((transaction) => (
                     <div className={handleCardStyle(transaction.type)} onClick={() => setViewId(transaction.id)} key={transaction.id}>
 
-                        <span className="left-side"><span className="category">{handleCategory(transaction.category)}</span>{transaction.name}</span>
-                        <span className="mid-side">
+                        <span className="transaction-name">{handleCategory(transaction.category)}<span className="name-text">{transaction.name}</span></span>
+                        <span className="transaction-category">{toTitleCase(transaction.category)}</span>
+                        <span className={`transaction-type ${transaction.type === "income" ? "income-type" : "expense-type"}`}>{toTitleCase(transaction.type)}</span>
+                        <span className="transaction-date">{handleDate(transaction.date)}</span>
+
+                        <span className={`transaction-amount ${transaction.type === "expense" ? "expense-amount" : "income-amount"}`} >
                             <span className="rupiah">
                                 {`${transaction.type === "expense" ? "- Rp " : "+ Rp "}`}
                             </span>
-                            {`${transaction.amount.toLocaleString('id-ID')}`}
+                            <span className="rupiah-value">
+                                {`${transaction.amount.toLocaleString('id-ID')}`}
+                            </span>
                         </span>
-                        <div className="adjust-btn">
-                            <button className="remove-btn" onClick={(e) => {e.stopPropagation(); handleDeleteData(transaction.id)}}><i className="bi bi-trash"></i></button>
-                        </div>
+
+                        <button className="remove-btn" onClick={(e) => {e.stopPropagation(); handleDeleteData(transaction.id)}}><i class="bi bi-trash-fill"></i></button>
 
                     </div>
                 ))}
@@ -218,30 +266,29 @@ function ListTransactions({ transactions, setTransactions, search, sort, filter,
             >
                 {selectedTransaction && (
                     <>  
-                        <h2>{`View ${selectedTransaction.type === "expense" ? "expense" : "income"} type`}</h2>
+                        <h2 className="header-modal-pop-up">{`View ${selectedTransaction.type === "expense" ? "expense" : "income"} type`}</h2>
                         <div className="view-transaction">
-                            <p>Title:</p>
+                            <p>Title</p>
                             <input 
                                 type="text" 
                                 name="name" 
                                 value={isEditing ? editData.name : selectedTransaction.name}
                                 onChange={handleData}
-                                readOnly={!isEditing}
+                                disabled={!isEditing}
                             />
                         </div>
                         <div className="view-transaction">
-                            <p>Amount:</p>
+                            <p>Amount</p>
                             <input 
                                 type="text"
                                 name="amount"
                                 value={isEditing ? editData.amount : Number(selectedTransaction.amount).toLocaleString("id-ID")}
                                 onChange={handleAmount}
-                                readOnly={!isEditing}
-                                //Number(value).toLocaleString("id-ID")
+                                disabled={!isEditing}
                             />
                         </div>
                         <div className="view-transaction">
-                            <p>Category:</p>
+                            <p>Category</p>
                             <select 
                                 value={isEditing ? editData.category : selectedTransaction.category}
                                 name="category" 
@@ -263,8 +310,8 @@ function ListTransactions({ transactions, setTransactions, search, sort, filter,
                             </select>                            
                         </div>
                         <div className="view-transaction">
-                            <p>Type:</p>
-                            <select 
+                            <p>Type</p>
+                            {/* <select 
                                 className={
                                     (isEditing ? editData.type : selectedTransaction.type) === "expense"
                                     ? "expense-desc"
@@ -277,16 +324,35 @@ function ListTransactions({ transactions, setTransactions, search, sort, filter,
                             >
                                 <option value="expense">Expense</option>
                                 <option value="income">Income</option>
-                            </select>
+                            </select> */}
+                            <div className="onclick-btns">
+                                <button 
+                                    type="button" 
+                                    onClick={() => setEditData(d => ({...d, type: "income"}))} 
+                                    className={`income-btn ${(isEditing ? editData.type : selectedTransaction.type) === "income" ? "fill" : ""}`}
+                                    disabled={!isEditing}
+                                >
+                                    Income
+                                </button>
+                                <button 
+                                    type="button" 
+                                    onClick={() => setEditData(d => ({...d, type: "expense"}))} 
+                                    className={`expense-btn ${(isEditing ? editData.type : selectedTransaction.type) === "expense" ? "fill" : ""}`}
+                                    disabled={!isEditing}
+                                >
+                                    Expense
+                                </button>
+                            </div>                            
                         </div>     
                         <div className="view-transaction">
-                            <p>Date:</p>
+                            <p>Date</p>
                             <input 
                                 type="date" 
                                 name="date"
                                 value={isEditing ? editData.date : selectedTransaction.date}
                                 onChange={handleData} 
-                                readOnly={!isEditing}/>
+                                disabled={!isEditing}
+                            />
                         </div> 
                     </>
                 )}
