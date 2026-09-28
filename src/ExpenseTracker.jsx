@@ -1,6 +1,6 @@
+import Navigation from "./Navigation.jsx";
 import PersonalFinance from "./PersonalFinance.jsx"
 import AddTransaction from "./AddTransaction.jsx";
-import Search from "./Search.jsx";
 import ListTransactions from "./ListTransactions.jsx";
 import Statistics from "./Statistics.jsx";
 import { useState, useEffect } from "react"
@@ -52,57 +52,47 @@ function ExpenseTracker(){
     }, [transactions, balance, income, expense])
 
     return(
-    <div className="full-container">
-        <div className="tracker-container">
-            <h1 className="title">Spendly</h1>
-            <PersonalFinance 
-            balance={balance} 
-            income={income} 
-            expense={expense} />
-
-            <AddTransaction 
-            setTransactions={setTransactions} 
-            category={category} 
-            setCategory={setCategory} 
-            setBalance={setBalance}
-            setIncome={setIncome}
-            setExpense={setExpense} />
-            
-        </div>
-
-        <div className="right-container">
-            <div className="search-list-container">
-                <div className="search-container">
-                    <Search 
-                    search={search} 
-                    setSearch={setSearch} 
-                    sort={sort} 
-                    setSort={setSort}
-                    filter={filter} 
-                    setFilter={setFilter} />
+    <div className="app-container" id="list-dashboard">
+        <Navigation />
+        <div className="main-container">
+            <div className="tracker-container">                
+                <PersonalFinance 
+                    balance={balance} 
+                    income={income} 
+                    expense={expense} 
+                />
+                <div className="add-and-statistics-container">
+                    <AddTransaction 
+                        setTransactions={setTransactions} 
+                        category={category} 
+                        setCategory={setCategory} 
+                        setBalance={setBalance}
+                        setIncome={setIncome}
+                        setExpense={setExpense} 
+                    />
+                    <Statistics 
+                        expenseChartData={expenseChartData}
+                        incomeChartData={incomeChartData} 
+                    />
                 </div>
-                <div className="list-container">
-                    <ListTransactions 
+            </div>
+            <div className="search-list-container">
+                <ListTransactions 
                     transactions={transactions} 
                     setTransactions={setTransactions}
                     search={search} 
+                    setSearch={setSearch}
                     sort={sort}
+                    setSort={setSort} 
                     filter={filter}
+                    setFilter={setFilter}
                     setBalance={setBalance}
                     setIncome={setIncome}
-                    setExpense={setExpense} />
-                </div>
-            </div>
-            
-            <div className="graph-container">
-                <Statistics 
-                expenseChartData={expenseChartData}
-                incomeChartData={incomeChartData} />
+                    setExpense={setExpense} 
+                />
             </div>
         </div>
-
     </div>
-
     )
 }
 
