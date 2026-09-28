@@ -7,7 +7,7 @@ const categoryColors = {
     shopping: "#9966FF",
     health: "#4BC0C0",
     education: "#FF9F40",
-    salary : "#ffe48d",
+    salary : "#ad8500",
     freelance: "#002a7d",
     business: "#cb48ff",
     investment: "#5aff48",
@@ -18,7 +18,6 @@ const categoryColors = {
 const toTitleCase = (s) => {
     return s.toLowerCase().split(/\s+/).map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 }
-
 
 const renderActiveShape = ({ cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle, payload, percent, value }) => {
     const RADIAN = Math.PI / 180;
@@ -57,8 +56,8 @@ const renderActiveShape = ({ cx, cy, midAngle, innerRadius, outerRadius, startAn
       />
       <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={categoryColors[payload.category]} fill="none" />
       <circle cx={ex} cy={ey} r={2} fill={categoryColors[payload.category]} stroke="none" />
-      <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill={categoryColors[payload.category]}>{`Rp ${value.toLocaleString("id-ID")}`}</text>
-      <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} dy={18} textAnchor={textAnchor} fill={categoryColors[payload.category]}>
+      <text x={ex + (cos >= 0 ? 1 : -1) * 6} y={ey} textAnchor={textAnchor} fill={categoryColors[payload.category]}>{`Rp ${(value / 1000).toFixed(0)}K`}</text>
+      <text x={ex + (cos >= 0 ? 1 : -1) * 6} y={ey} dy={18} textAnchor={textAnchor} fill={categoryColors[payload.category]}>
         {`${((percent ?? 1) * 100).toFixed(2)}%`}
       </text>
     </g>
@@ -85,10 +84,12 @@ function Statistics({expenseChartData, incomeChartData, isAnimationActive = true
                 flexDirection: "row",
                 flexWrap: "wrap",
                 gap: "3px",
+                margin: "0",
                 justifyContent: "center",
                 alignItems: "center",
-                marginTop: "50px",
-                width: "100%"
+                width: "100%",
+                fontSize: "0.8em",
+                transform: "translateY(15px)"
             }}>
                 {payload.map((entry) => (
                     <span key={entry.value} >
@@ -111,52 +112,54 @@ function Statistics({expenseChartData, incomeChartData, isAnimationActive = true
 
     
     return(
-        <>
-            <div className="charts">
-                <div className="chart">
-                    <ResponsiveContainer width="100%" height={320}>
-                        <PieChart   
-                            margin={{ top: 30, right: 40, bottom: 10, left: 40 }}>
-                            <Pie
-                                activeShape={renderActiveShape}
-                                data={expenseChartData}
-                                dataKey="amount"
-                                nameKey="category"
-                                innerRadius="60%"
-                                outerRadius="80%"      
-                                stroke="transparent"
-                                paddingAngle={3}
-                                shape={CustomSector}
-                                isAnimationActive={isAnimationActive}                          
-                            />
-                            <Tooltip content={() => null} defaultIndex={defaultIndex}/>
-                            <Legend content={<CustomLegend />} />
-                        </PieChart>
-                    </ResponsiveContainer>
-                </div>
-                <div className="chart">
-                    <ResponsiveContainer width="100%" height={320}>
-                        <PieChart   
-                            margin={{ top: 30, right: 40, bottom: 10, left: 40 }}>
-                            <Pie
-                                activeShape={renderActiveShape}
-                                data={incomeChartData}
-                                dataKey="amount"
-                                nameKey="category"
-                                innerRadius="60%"
-                                outerRadius="80%"      
-                                stroke="transparent"
-                                paddingAngle={3}
-                                shape={CustomSector}
-                                isAnimationActive={isAnimationActive}                          
-                            />
-                            <Tooltip content={() => null} defaultIndex={defaultIndex}/>
-                            <Legend content={<CustomLegend />} />
-                        </PieChart>
-                    </ResponsiveContainer>
-                </div>
+
+        <div className="graph-container charts">
+            <div className="chart">
+                <h3 style={{ fontSize: "1em" ,marginBottom : 0,  paddingBottom: 0}}>Expense by Category</h3>
+                <ResponsiveContainer width="100%" height={270}>
+                    <PieChart   
+                        margin={{ top: 0, right: 0, bottom: 0, left: 40 }}>
+                        <Pie
+                            activeShape={renderActiveShape}
+                            data={expenseChartData}
+                            dataKey="amount"
+                            nameKey="category"
+                            innerRadius="60%"
+                            outerRadius="80%"      
+                            stroke="transparent"
+                            paddingAngle={3}
+                            shape={CustomSector}
+                            isAnimationActive={isAnimationActive}
+                        />
+                        <Tooltip content={() => null} defaultIndex={defaultIndex}/>
+                        <Legend content={<CustomLegend />} />
+                    </PieChart>
+                </ResponsiveContainer>
             </div>
-        </>
+            <div className="chart">
+                <h3 style={{ fontSize: "1em" ,marginBottom : 0,  paddingBottom: 0}}>Income by Category</h3>                
+                <ResponsiveContainer width="100%" height={270}>
+                    <PieChart   
+                        margin={{ top: 0, right: 40, bottom: 0, left: 0 }}>
+                        <Pie
+                            activeShape={renderActiveShape}
+                            data={incomeChartData}
+                            dataKey="amount"
+                            nameKey="category"
+                            innerRadius="60%"
+                            outerRadius="80%"      
+                            stroke="transparent"
+                            paddingAngle={3}
+                            shape={CustomSector}
+                            isAnimationActive={isAnimationActive}                          
+                        />
+                        <Tooltip content={() => null} defaultIndex={defaultIndex}/>
+                        <Legend content={<CustomLegend />} />
+                    </PieChart>
+                </ResponsiveContainer>
+            </div>
+        </div>
+
     );
 }
 
