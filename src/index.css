@@ -396,7 +396,7 @@ header {
     align-items: center;
     height: 50px;
     font-size: 1.1em;
-    border: 1px solid rgba(231, 236, 237, 0.719);
+    border-bottom: 1px solid rgba(231, 236, 237, 0.719);
     cursor: pointer;
     transition: transform 0.2s ease;
 }
@@ -409,10 +409,6 @@ header {
     min-width: 0;
 }
 
-.transaction-card .transaction-name .bi {
-    flex-shrink: 0;
-    margin: 0;
-}
 
 .name-text {
     overflow: hidden;
@@ -628,4 +624,188 @@ header {
 .modal-del-btn:hover {
   transform: scale(1.05);
   opacity: 0.7;
+}
+
+.history-list-container {
+    box-shadow:     
+        0 2px 4px -1px rgba(0, 0, 0, 0.2),  
+        0 4px 8px -2px rgba(0, 0, 0, 0.15);
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    background-color: whitesmoke;
+}
+.history-list-container h2 {
+  margin-bottom: 16px;
+}
+
+.history-list-container .transaction-scroll {
+    overflow-y: auto;
+    scrollbar-width: none;
+    display: flex;
+    flex-direction: column;  
+}
+
+.history-list-container .history-card {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    height: auto;
+    width: 100%;
+    font-size: 1.1em;
+    transition: transform 0.2s ease;  
+
+}
+
+.history-list-container .history-card .history-desc {
+    border-bottom: 1px solid rgba(231, 236, 237, 0.719);
+    margin: 12px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+} 
+
+.history-list-container .history-card .history-upper-desc {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.history-list-container .history-card .history-desc.added-card    { background-color: rgb(216, 255, 208); }
+.history-list-container .history-card .history-desc.deleted-card  { background-color: rgb(255, 231, 231); }
+.history-list-container .history-card .history-desc.edited-card   { background-color: rgb(207, 222, 255); }
+
+.history-list-container .history-card .history-desc .history-upper-desc .history-left-desc {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    
+}
+
+.history-list-container .history-card .history-desc .history-upper-desc .history-right-desc {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    color: rgb(100, 100, 100);    
+}
+
+.history-list-container .history-card .history-desc .history-upper-desc .history-left-desc .first,
+.history-list-container .history-card .history-desc .history-upper-desc .history-left-desc .transaction-name-desc { font-weight: bold;}
+  
+.history-list-container .history-card .bi {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;    
+    border: none;
+    border-radius: 50%;
+    padding: 8px;
+    margin: 12px 4px;
+    font-size: 1em;
+}
+
+.history-list-container .history-card .bi.bi-plus-lg {
+    background-color: rgb(216, 255, 208);  
+    color: rgb(18, 108, 0);  
+}
+
+.history-list-container .history-card .bi.bi-trash-fill {
+    background-color: rgb(255, 231, 231);  
+    color: rgb(108, 0, 0);  
+}
+
+.history-list-container .history-card .bi.bi-pencil-fill {
+    background-color: rgb(207, 222, 255);  
+    color: rgb(7, 135, 255);  
+}
+
+.history-list-container .history-card .history-desc .history-lower-desc.not-edited {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    gap: 8px;
+}
+
+.history-list-container .history-card .history-desc .history-lower-desc.not-edited span {
+    border: none;
+    padding: 2px 8px;
+    border-radius: 8px;
+}
+
+.history-list-container .history-card .history-desc .history-lower-desc.not-edited .added-transaction,
+.history-list-container .history-card .history-desc .history-lower-desc.not-edited .income-transaction {
+    background-color: rgb(155, 255, 135);
+    color: rgb(18, 108, 0);
+}
+
+.history-list-container .history-card .history-desc .history-lower-desc.not-edited .deleted-transaction,
+.history-list-container .history-card .history-desc .history-lower-desc.not-edited .expense-transaction {
+    background-color: rgb(255, 180, 180);
+    color: rgb(108, 0, 0);  
+}
+
+.history-list-container .history-card .history-desc .history-lower-desc.not-edited .category-transaction {
+    background-color: rgb(211, 225, 255);  
+    color: rgb(7, 135, 255);  
+}
+
+.history-list-container .history-card .history-desc .history-lower-desc.edited {
+    background-color: whitesmoke;    
+    border-radius: 12px;
+    margin: 4px;
+    padding: 12px;
+    display: flex;
+    flex-direction: row;
+
+}
+
+.history-list-container .history-card .history-desc .history-lower-desc.edited div {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+.history-list-container .history-card .history-desc .history-lower-desc.edited .before-edited-transaction .header-transaction,
+.history-list-container .history-card .history-desc .history-lower-desc.edited .after-edited-transaction .header-transaction {
+    display: inline-block;
+    width: 15%;
+    text-align: center;
+    padding: 4px 2px;
+    border: none;
+    border-radius: 8px;
+}
+
+.history-list-container .history-card .history-desc .history-lower-desc.edited .before-edited-transaction .header-transaction.before {
+    background-color: rgb(225, 225, 225);        
+    color: rgb(100, 100, 100);    
+}
+
+.history-list-container .history-card .history-desc .history-lower-desc.edited .after-edited-transaction .header-transaction.after {
+    background-color: rgb(211, 225, 255);  
+    color: rgb(7, 135, 255);  
+}
+
+.key-value {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 32px;
+    color: rgb(100, 100, 100); 
+}
+
+.key-value .key {
+    display: flex;
+    align-items: center;
+    width: 40%;
+}
+
+.key-value .key .bi {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
 }
