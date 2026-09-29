@@ -2,7 +2,7 @@ import { useState } from "react";
 import Search from "./Search.jsx";
 import Modal from "./Modal.jsx";
 
-function ListTransactions({ transactions, setTransactions, search, setSearch, sort, setSort, filter, setFilter, setBalance, setIncome, setExpense }){
+function ListTransactions({ transactions, setTransactions, search, setSearch, sort, setSort, filter, setFilter, setBalance, setIncome, setExpense, setHistoryTransactions }){
 
     const [viewId, setViewId] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -12,7 +12,8 @@ function ListTransactions({ transactions, setTransactions, search, setSearch, so
         amount: "",
         category: "",
         type: "",
-        date: ""
+        date: "",
+        timeHistory: "",
     });
 
     const sortTransaction = (allTransactions, sortBy) => {
@@ -84,7 +85,18 @@ function ListTransactions({ transactions, setTransactions, search, setSearch, so
                 amount: Number(editData.amount.replace(/\./g, "")),
                 category: editData.category,
                 type: editData.type,
-                date: editData.date
+                date: editData.date,             
+            };
+
+            const historyData = {
+                ...savedData,
+                timeHistory: new Date().toISOString(),
+                mode: "edited",
+                nameBefore: selectedTransaction.name,
+                amountBefore: selectedTransaction.amount,
+                categoryBefore: selectedTransaction.category,
+                typeBefore: selectedTransaction.type,
+                dateBefore: selectedTransaction.date                
             };
 
             if (selectedTransaction.type === savedData.type && savedData.type === "expense"){
@@ -108,7 +120,15 @@ function ListTransactions({ transactions, setTransactions, search, setSearch, so
                     if (transaction.id === viewId) return savedData;
                     else return transaction;
                 })
-            );
+            );  
+
+            if (historyData.name !== historyData.nameBefore || 
+                historyData.amount !== historyData.amountBefore ||
+                historyData.category !== historyData.categoryBefore ||
+                historyData.type !== historyData.typeBefore ||
+                historyData.date !== historyData.dateBefore
+            ) setHistoryTransactions(h => [...h, historyData]);
+        
         }
         setIsEditing(false);
     }
@@ -127,7 +147,12 @@ function ListTransactions({ transactions, setTransactions, search, setSearch, so
     };
 
     const handleDeleteData = (id) => {
-        const deletedData = transactions.find((t) => t.id === id);        
+        const deletedData = transactions.find((t) => t.id === id);       
+        const historyData = {
+            ...deletedData,
+            timeHistory: new Date().toISOString(),
+            mode: "deleted"
+        } 
         if (deletedData.type === 'income'){
             setIncome(i => i - deletedData.amount);
             setBalance(b => b - deletedData.amount);
@@ -135,8 +160,9 @@ function ListTransactions({ transactions, setTransactions, search, setSearch, so
             setExpense(e => e - deletedData.amount);
             setBalance(b => b + deletedData.amount);
         }
+        setHistoryTransactions(h => [...h, historyData]);
         setTransactions(t => t.filter((t) => t.id !== id));
-        setViewId(null);        
+        setViewId(null);                
     };
 
     const selectedTransaction = transactions.find((t) => t.id === viewId);
