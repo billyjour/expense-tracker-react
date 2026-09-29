@@ -3,18 +3,24 @@ import PersonalFinance from "./PersonalFinance.jsx"
 import AddTransaction from "./AddTransaction.jsx";
 import ListTransactions from "./ListTransactions.jsx";
 import Statistics from "./Statistics.jsx";
+import History from "./History.jsx";
 import { useState, useEffect } from "react"
-
 
 function ExpenseTracker(){
 
     const [balance, setBalance] =   useState(() => {return Number(localStorage.getItem('balance')) || 200000});
-    const [income, setIncome] =     useState(() => {return Number(localStorage.getItem('income' )) || 0});
+    const [income, setIncome]   =   useState(() => {return Number(localStorage.getItem('income' )) || 0});
     const [expense, setExpense] =   useState(() => {return Number(localStorage.getItem('expense')) || 0});
     const [transactions, setTransactions] = useState(() => {
         const savedTransactions = localStorage.getItem('transactions');
         return savedTransactions ? JSON.parse(savedTransactions) : [];
     });
+
+    const [historyTransactions, setHistoryTransactions] = useState(() => {
+        const historySavedTransactions = localStorage.getItem('historyTransactions');
+        return historySavedTransactions ? JSON.parse(historySavedTransactions) : [];
+    })
+
     const [search, setSearch] = useState("");
     const [category, setCategory] = useState("food");
     const [sort, setSort] = useState("");
@@ -46,10 +52,11 @@ function ExpenseTracker(){
     
     useEffect(() => {
         localStorage.setItem('transactions', JSON.stringify(transactions));
+        localStorage.setItem('historyTransactions', JSON.stringify(historyTransactions));
         localStorage.setItem('balance', balance);
         localStorage.setItem('income', income);
         localStorage.setItem('expense', expense);
-    }, [transactions, balance, income, expense])
+    }, [transactions, historyTransactions, balance, income, expense])
 
     return(
     <div className="app-container" id="list-dashboard">
@@ -69,6 +76,7 @@ function ExpenseTracker(){
                         setBalance={setBalance}
                         setIncome={setIncome}
                         setExpense={setExpense} 
+                        setHistoryTransactions={setHistoryTransactions}
                     />
                     <Statistics 
                         expenseChartData={expenseChartData}
@@ -89,11 +97,18 @@ function ExpenseTracker(){
                     setBalance={setBalance}
                     setIncome={setIncome}
                     setExpense={setExpense} 
+                    setHistoryTransactions={setHistoryTransactions}
+                />
+            </div>
+            <div className="history-list-container">
+                <History 
+                    historyTransactions={historyTransactions}
                 />
             </div>
         </div>
     </div>
     )
+
 }
 
 export default ExpenseTracker
