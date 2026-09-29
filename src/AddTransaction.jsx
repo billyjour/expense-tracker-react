@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function AddTransaction({ setTransactions, category, setCategory, setBalance, setIncome, setExpense }){
+function AddTransaction({ setTransactions, category, setCategory, setBalance, setIncome, setExpense, setHistoryTransactions }){
 
     const [name, setName] = useState("");
     const [amount, setAmount] = useState("");
@@ -30,7 +30,9 @@ function AddTransaction({ setTransactions, category, setCategory, setBalance, se
                 amount: Number(amount.replace(/\./g, "")),
                 category: category,
                 type: type,
-                date: date
+                date: date,
+                timeHistory: new Date().toISOString(),
+                mode: "added",
             };
 
             setName("");
@@ -46,7 +48,8 @@ function AddTransaction({ setTransactions, category, setCategory, setBalance, se
             setCategory("food");
             setType("expense");
             setTransactions(t => [...t, newTransaction]);
-
+            setHistoryTransactions(t => [...t, newTransaction]);
+            
             if (type === "expense"){
                 setBalance(b => b - newTransaction.amount);
                 setExpense(e => e + newTransaction.amount);
