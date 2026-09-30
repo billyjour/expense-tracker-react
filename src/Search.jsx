@@ -3,7 +3,7 @@ function Search({ search, setSearch, sort, setSort, filter, setFilter }){
     return(
         <div className="input-and-select-container">
             <div className="input-container">
-                <i class="bi bi-search"></i>
+                <i className="bi bi-search"></i>
                 <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search transactions..." />
             </div>
             <div className="select-container">

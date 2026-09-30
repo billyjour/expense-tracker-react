@@ -12,7 +12,7 @@ function PersonalFinance({balance, income, expense}){
                 <h3 className="wallet">My Wallet</h3>
                 <div className="finance-wallet-container">
                     <div className="finance-info balance">
-                        <i class="bi bi-wallet-fill"></i>
+                        <i className="bi bi-wallet-fill"></i>
                         <div className="info">
                             <h3 className="type-finance">Balance</h3>
                             <p className="money">{balance.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}</p>

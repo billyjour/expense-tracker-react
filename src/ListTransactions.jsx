@@ -173,14 +173,13 @@ function ListTransactions({ transactions, setTransactions, search, setSearch, so
 
     const recentTransactions = transactions.slice(-5).reverse();
 
-
     const filteredCategoryTransactions = filterCategory(transactions, filter);
     const sortedTransactions = sortTransaction(filteredCategoryTransactions, sort);
     // const displayedTransactions = search === "" ? recentTransactions : filteredTransactions;
     
     let displayedTransactions;
 
-    if (search === ""){
+    if (search === ""){ 
         if (filter !== "" || sort !== "") displayedTransactions = sortedTransactions;
         else displayedTransactions = recentTransactions;
     } else displayedTransactions = filteredTransactions;
@@ -196,18 +195,18 @@ function ListTransactions({ transactions, setTransactions, search, setSearch, so
 
     const handleCategory = (c) => {
         switch(c) {
-            case 'food':         return <i class="bi bi-fork-knife"></i>;
-            case 'utilities':    return <i class="bi bi-lightbulb-fill"></i>;
-            case 'transport':    return <i class="bi bi-car-front-fill"></i>;
-            case 'shopping':     return <i class="bi bi-cart-fill"></i>;
-            case 'health':       return <i class="bi bi-hospital-fill"></i>;
-            case 'education':    return <i class="bi bi-book-fill"></i>;
-            case 'salary':       return <i class="bi bi-bank2"></i>;
-            case 'freelance':    return <i class="bi bi-laptop-fill"></i>;
-            case 'business':     return <i class="bi bi-buildings-fill"></i>
-            case 'investment':   return <i class="bi bi-bar-chart-fill"></i>
-            case 'gift':         return <i class="bi bi-gift-fill"></i>;
-            case 'other-income': return <i class="bi bi-piggy-bank-fill"></i>;
+            case 'food':         return <i className="bi bi-fork-knife"></i>;
+            case 'utilities':    return <i className="bi bi-lightbulb-fill"></i>;
+            case 'transport':    return <i className="bi bi-car-front-fill"></i>;
+            case 'shopping':     return <i className="bi bi-cart-fill"></i>;
+            case 'health':       return <i className="bi bi-hospital-fill"></i>;
+            case 'education':    return <i className="bi bi-book-fill"></i>;
+            case 'salary':       return <i className="bi bi-bank2"></i>;
+            case 'freelance':    return <i className="bi bi-laptop-fill"></i>;
+            case 'business':     return <i className="bi bi-buildings-fill"></i>
+            case 'investment':   return <i className="bi bi-bar-chart-fill"></i>
+            case 'gift':         return <i className="bi bi-gift-fill"></i>;
+            case 'other-income': return <i className="bi bi-piggy-bank-fill"></i>;
         }
     }
 
