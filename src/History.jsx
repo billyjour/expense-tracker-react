@@ -1,4 +1,8 @@
+import { useState } from "react";
+
 function History({ historyTransactions }){
+
+    const [sortHistory, setSortHistory] = useState("all");
 
     const handleModeIcon = (mode) => {
         switch(mode) {
@@ -31,12 +35,25 @@ function History({ historyTransactions }){
         return s.toLowerCase().split(/\s+/).map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
     }
 
+    const recentHistoryTransactions = historyTransactions.slice(-5).reverse();
+
     return (
-        <>
-           <h2>History Transactions</h2>
-           <p>Track all activities in your transactions</p>
-           <div className="transaction-scroll">
-                {historyTransactions.map((transaction) => {
+        <>  
+            <div className="history-transaction-container">
+                <div className="history-left-container">
+                    <h2>History Transactions</h2>
+                    <p>Track all activities in your transactions</p>
+                </div>
+                <div className="history-right-container">
+                    <button type="button" onClick={() => setSortHistory("all") } className={`history-sort-btn ${sortHistory === "all" ? "fill" : ""}`}>All</button>
+                    <button type="button" onClick={() => setSortHistory("added")} className={`history-sort-btn ${sortHistory === "added" ? "fill" : ""}`}>Added</button>
+                    <button type="button" onClick={() => setSortHistory("edited")} className={`history-sort-btn ${sortHistory === "edited" ? "fill" : ""}`}>Edited</button>
+                    <button type="button" onClick={() => setSortHistory("deleted")} className={`history-sort-btn ${sortHistory === "deleted" ? "fill" : ""}`}>Deleted</button>
+                </div>
+            </div>
+            
+            <div className="transaction-scroll">
+                {recentHistoryTransactions.map((transaction) => {
                     const date = new Date(transaction.timeHistory);
                     const formattedDate = date.toLocaleDateString("id-ID", {
                         day: "2-digit",
@@ -73,49 +90,50 @@ function History({ historyTransactions }){
                             }
                             {transaction.mode === "edited" && (
                             <div className="history-lower-desc edited">
+                                <i class="bi bi-arrow-right"></i>
                                 <div className="before-edited-transaction">
                                     <span className="header-transaction before">Before</span>
                                     <span className="key-value">
-                                        <span className="key"><i class="bi bi-journal-text"></i> Name</span>
+                                        <span className="key"><i className="bi bi-journal-text"></i> Name</span>
                                         <span className="value">{`${transaction.nameBefore}`}</span>
                                     </span>
                                     <span className="key-value">
-                                        <span className="key"><i class="bi bi-coin"></i> Amount</span>
+                                        <span className="key"><i className="bi bi-coin"></i> Amount</span>
                                         <span className="value">{`Rp ${transaction.amountBefore.toLocaleString("id-ID")}`}</span>
                                     </span>
                                     <span className="key-value">
-                                        <span className="key"><i class="bi bi-tag"></i> Category</span>
+                                        <span className="key"><i className="bi bi-tag"></i> Category</span>
                                         <span className="value">{`${toTitleCase(transaction.categoryBefore)}`}</span>
                                     </span>
                                     <span className="key-value">
-                                        <span className="key"><i class="bi bi-arrow-left-right"></i> Type</span>
+                                        <span className="key"><i className="bi bi-arrow-left-right"></i> Type</span>
                                         <span className="value">{`${toTitleCase(transaction.typeBefore)}`}</span>
                                     </span>
                                     <span className="key-value">
-                                        <span className="key"><i class="bi bi-calendar"></i> Amount</span>
+                                        <span className="key"><i className="bi bi-calendar"></i> Amount</span>
                                         <span className="value">{`${transaction.dateBefore}`}</span>
                                     </span>                                                                                                            
                                 </div>
                                 <div className="after-edited-transaction">
                                     <span className="header-transaction after">After</span>
                                     <span className="key-value">
-                                        <span className="key"><i class="bi bi-journal-text"></i> Name</span>
+                                        <span className="key"><i className="bi bi-journal-text"></i> Name</span>
                                         <span className="value">{`${transaction.name}`}</span>
                                     </span>
                                     <span className="key-value">
-                                        <span className="key"><i class="bi bi-coin"></i> Amount</span>
+                                        <span className="key"><i className="bi bi-coin"></i> Amount</span>
                                         <span className="value">{`Rp ${transaction.amount.toLocaleString("id-ID")}`}</span>
                                     </span>
                                     <span className="key-value">
-                                        <span className="key"><i class="bi bi-tag"></i> Category</span>
+                                        <span className="key"><i className="bi bi-tag"></i> Category</span>
                                         <span className="value">{`${toTitleCase(transaction.category)}`}</span>
                                     </span>
                                     <span className="key-value">
-                                        <span className="key"><i class="bi bi-arrow-left-right"></i> Type</span>
+                                        <span className="key"><i className="bi bi-arrow-left-right"></i> Type</span>
                                         <span className="value">{`${toTitleCase(transaction.type)}`}</span>
                                     </span>
                                     <span className="key-value">
-                                        <span className="key"><i class="bi bi-calendar"></i> Amount</span>
+                                        <span className="key"><i className="bi bi-calendar"></i> Amount</span>
                                         <span className="value">{`${transaction.date}`}</span>
                                     </span>                                                                                                            
                                 </div>                                
@@ -127,7 +145,7 @@ function History({ historyTransactions }){
                     </div>
                     )
                 })}
-           </div>
+            </div>
         </>
     )
 
