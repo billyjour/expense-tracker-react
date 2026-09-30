@@ -367,6 +367,52 @@ header {
     font-weight: bold;
 }
 
+.history-transaction-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: start;
+}
+
+.history-transaction-container .history-left-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.history-transaction-container .history-left-container h2 { margin-bottom: 4px; }
+.history-transaction-container .history-left-container p { color: rgb(154, 154, 154); }
+
+.history-transaction-container .history-right-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 12px;
+}
+
+.history-transaction-container .history-right-container .history-sort-btn {
+    width: 80px;    
+    padding: 8px 12px;
+    text-align: center;
+    border: 1px solid rgb(154, 154, 154);
+    border-radius: 12px;
+    font-size: 1em;
+    cursor: pointer;
+    color: rgb(7, 0, 47);
+    background-color: white;    
+    transition: all 0.2s ease;
+}
+
+.history-transaction-container .history-right-container .history-sort-btn:hover { 
+    transform: scale(1.05); 
+
+}
+
+.history-transaction-container .history-right-container .history-sort-btn.fill {
+    background-color: rgb(7, 0, 47);
+    color: white;
+}
+
 .transaction-scroll {
     overflow-y: auto;
     scrollbar-width: none;
@@ -442,7 +488,10 @@ header {
 }                    
 
 .transaction-name { width: 20%; }
-.transaction-type { width: 8%; }
+.transaction-type { 
+    width: 6%;
+    text-align: center;
+}
 
 .transaction-date {
     width: 30%;
@@ -659,11 +708,12 @@ header {
 
 .history-list-container .history-card .history-desc {
     border-bottom: 1px solid rgba(231, 236, 237, 0.719);
-    margin: 12px;
-    width: 100%;
+    margin: 12px 12px 0 12px;
+    flex: 1;             
+    min-width: 0;        
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
     border: none;
     border-radius: 8px;
     padding: 8px 12px;
@@ -761,7 +811,19 @@ header {
     padding: 12px;
     display: flex;
     flex-direction: row;
+    position: relative;
+}
 
+.history-list-container .history-card .history-desc .history-lower-desc.edited .bi.bi-arrow-right {
+    position: absolute;
+    top: 50%;
+    left: calc(50% - 10px);
+    transform: translate(-50%, -50%);
+    margin: 0;
+    z-index: 1;
+    padding: 8px;
+    border-radius: 50%;    
+    background-color: whitesmoke;
 }
 
 .history-list-container .history-card .history-desc .history-lower-desc.edited div {
@@ -769,6 +831,21 @@ header {
     flex-direction: column;
     width: 50%;
 }
+
+.history-list-container .history-card .history-desc .history-lower-desc.edited .after-edited-transaction {
+    position: relative;
+}
+
+.history-list-container .history-card .history-desc .history-lower-desc.edited .after-edited-transaction::before {
+    content: "";
+    position: absolute;
+    left: -10px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background-color: rgb(100, 100, 100);
+}
+
 .history-list-container .history-card .history-desc .history-lower-desc.edited .before-edited-transaction .header-transaction,
 .history-list-container .history-card .history-desc .history-lower-desc.edited .after-edited-transaction .header-transaction {
     display: inline-block;
@@ -793,6 +870,7 @@ header {
     display: flex;
     flex-direction: row;
     align-items: center;
+    width: 80%;
     height: 32px;
     color: rgb(100, 100, 100); 
 }
@@ -800,7 +878,8 @@ header {
 .key-value .key {
     display: flex;
     align-items: center;
-    width: 40%;
+    height: 32px;
+    width: 50%;
 }
 
 .key-value .key .bi {
