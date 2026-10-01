@@ -232,7 +232,7 @@ function ListTransactions({ transactions, setTransactions, search, setSearch, so
             case "12" : month = "Dec"; break;           
         }
 
-        return `${month} ${day}, ${year}`;
+        return `${day} ${month} ${year}`;
     }
 
 
