@@ -6,9 +6,9 @@ function History({ historyTransactions }){
 
     const handleModeIcon = (mode) => {
         switch(mode) {
-            case 'added'  : return <i class="bi bi-plus-lg"></i>;
-            case 'deleted': return <i class="bi bi-trash-fill"></i>;
-            case 'edited' : return <i class="bi bi-pencil-fill"></i>;
+            case 'added'  : return <i class="bi bi-plus-lg mode-icon"></i>;
+            case 'deleted': return <i class="bi bi-trash-fill mode-icon"></i>;
+            case 'edited' : return <i class="bi bi-pencil-fill mode-icon"></i>;
             default : return "";
         }
     }
@@ -35,11 +35,22 @@ function History({ historyTransactions }){
         return s.toLowerCase().split(/\s+/).map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
     }
 
-    const recentHistoryTransactions = historyTransactions.slice(-5).reverse();
+    const reverseHistoryTransactions = [...historyTransactions].reverse();
+    const addedHistoryTransactions = [...historyTransactions].filter(t => t.mode === "added").reverse();
+    const editedHistoryTransactions = [...historyTransactions].filter(t => t.mode === "edited").reverse();
+    const deletedHistoryTransactions = [...historyTransactions].filter(t => t.mode === "deleted").reverse();
+
+    let displayedHistoryTransactions;
+    switch(sortHistory) {
+        case 'all'      : displayedHistoryTransactions = reverseHistoryTransactions;    break;
+        case 'added'    : displayedHistoryTransactions = addedHistoryTransactions;      break;
+        case 'edited'   : displayedHistoryTransactions = editedHistoryTransactions;     break;
+        case 'deleted'  : displayedHistoryTransactions = deletedHistoryTransactions;    break;
+    }
 
     return (
         <>  
-            <div className="history-transaction-container">
+            <div className="history-transaction-container" id="list-history-transactions">
                 <div className="history-left-container">
                     <h2>History Transactions</h2>
                     <p>Track all activities in your transactions</p>
@@ -53,7 +64,7 @@ function History({ historyTransactions }){
             </div>
             
             <div className="transaction-scroll">
-                {recentHistoryTransactions.map((transaction) => {
+                {displayedHistoryTransactions.map((transaction) => {
                     const date = new Date(transaction.timeHistory);
                     const formattedDate = date.toLocaleDateString("id-ID", {
                         day: "2-digit",
@@ -95,46 +106,46 @@ function History({ historyTransactions }){
                                     <span className="header-transaction before">Before</span>
                                     <span className="key-value">
                                         <span className="key"><i className="bi bi-journal-text"></i> Name</span>
-                                        <span className="value">{`${transaction.nameBefore}`}</span>
+                                        <span className="value name-transaction">{`${transaction.nameBefore}`}</span>
                                     </span>
                                     <span className="key-value">
                                         <span className="key"><i className="bi bi-coin"></i> Amount</span>
-                                        <span className="value">{`Rp ${transaction.amountBefore.toLocaleString("id-ID")}`}</span>
+                                        <span className="value amount-transaction">{`Rp ${transaction.amountBefore.toLocaleString("id-ID")}`}</span>
                                     </span>
                                     <span className="key-value">
                                         <span className="key"><i className="bi bi-tag"></i> Category</span>
-                                        <span className="value">{`${toTitleCase(transaction.categoryBefore)}`}</span>
+                                        <span className="value category-transaction">{`${toTitleCase(transaction.categoryBefore)}`}</span>
                                     </span>
                                     <span className="key-value">
                                         <span className="key"><i className="bi bi-arrow-left-right"></i> Type</span>
-                                        <span className="value">{`${toTitleCase(transaction.typeBefore)}`}</span>
+                                        <span className={`value ${transaction.typeBefore === "income" ? "income-transaction" : "expense-transaction"}`}>{`${toTitleCase(transaction.typeBefore)}`}</span>
                                     </span>
                                     <span className="key-value">
                                         <span className="key"><i className="bi bi-calendar"></i> Amount</span>
-                                        <span className="value">{`${transaction.dateBefore}`}</span>
+                                        <span className="value date-transaction">{`${transaction.dateBefore}`}</span>
                                     </span>                                                                                                            
                                 </div>
                                 <div className="after-edited-transaction">
                                     <span className="header-transaction after">After</span>
                                     <span className="key-value">
                                         <span className="key"><i className="bi bi-journal-text"></i> Name</span>
-                                        <span className="value">{`${transaction.name}`}</span>
+                                        <span className={`value name-transaction ${transaction.nameBefore !== transaction.name ? "diff" : ""}`}>{`${transaction.name}`}</span>
                                     </span>
                                     <span className="key-value">
                                         <span className="key"><i className="bi bi-coin"></i> Amount</span>
-                                        <span className="value">{`Rp ${transaction.amount.toLocaleString("id-ID")}`}</span>
+                                        <span className={`value amount-transaction ${transaction.amountBefore !== transaction.amount ? "diff" : ""}`}>{`Rp ${transaction.amount.toLocaleString("id-ID")}`}</span>
                                     </span>
                                     <span className="key-value">
                                         <span className="key"><i className="bi bi-tag"></i> Category</span>
-                                        <span className="value">{`${toTitleCase(transaction.category)}`}</span>
+                                        <span className={`value category-transaction ${transaction.categoryBefore !== transaction.category ? "diff" : ""}`}>{`${toTitleCase(transaction.category)}`}</span>
                                     </span>
                                     <span className="key-value">
                                         <span className="key"><i className="bi bi-arrow-left-right"></i> Type</span>
-                                        <span className="value">{`${toTitleCase(transaction.type)}`}</span>
+                                        <span className={`value ${transaction.type === "income" ? "income-transaction" : "expense-transaction"}`}>{`${toTitleCase(transaction.type)}`}</span>
                                     </span>
                                     <span className="key-value">
                                         <span className="key"><i className="bi bi-calendar"></i> Amount</span>
-                                        <span className="value">{`${transaction.date}`}</span>
+                                        <span className={`value date-transaction ${transaction.dateBefore !== transaction.date ? "diff" : ""}`}>{`${transaction.date}`}</span>
                                     </span>                                                                                                            
                                 </div>                                
                             </div>
