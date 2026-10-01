@@ -1,11 +1,34 @@
 function PersonalFinance({balance, income, expense}){
 
+    function getTimeOfDay(date = new Date()) {
+        const hour = date.getHours();
+
+    if (hour >= 4 && hour < 11) return "Morning";    // 04:00 - 10:59
+    if (hour >= 11 && hour < 15) return "Afternoon";  // 11:00 - 14:59
+    if (hour >= 15 && hour < 18) return "Evening";   // 15:00 - 17:59
+    return "Night";                               // 18:00 - 03:59
+    }
+
     return(
         <>
 
             <header>
-                <h3>Good morning, Billy!</h3>
-                <p>Here's your financial overview for today.</p>
+                <div className="left-header">
+                    <h3>{`Good ${getTimeOfDay()}, Billy!`}</h3>
+                    <p>Here's your financial overview for today.</p>
+                </div>
+                <div className="right-header">
+                    <span>
+                        {new Date().toLocaleDateString("en-GB", {
+                            weekday: "short",
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                        })}                        
+                    </span>
+                    <span className="prof-pict">BJ</span>
+                </div>
+
             </header>
         
             <div className="finance-container">
