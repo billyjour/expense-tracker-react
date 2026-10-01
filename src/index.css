@@ -41,6 +41,7 @@
     border-radius: 8px;
     margin: 4px 8px;
     padding: 12px;
+    transition: all 0.2s ease;    
 }
 
 .side-nav li a.active { background-color: rgba(27, 28, 91, 0.95); }
@@ -70,6 +71,26 @@ header p { color: rgb(100, 104, 129); }
 
 header {
     margin-bottom: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+header .right-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+header .right-header .prof-pict {
+
+
+    color: white;
+    background-color:rgb(7, 0, 47);
+    border-radius: 50%;
+    padding: 12px;
 }
 
 .finance-container {
@@ -489,7 +510,7 @@ header {
 
 .transaction-name { width: 20%; }
 .transaction-type { 
-    width: 6%;
+    width: 8%;
     text-align: center;
 }
 
@@ -552,6 +573,7 @@ header {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    z-index: 99;
 }
 
 .modal-pop-up {
@@ -689,11 +711,24 @@ header {
 }
 
 .history-list-container .transaction-scroll {
-    overflow-y: auto;
-    scrollbar-width: none;
     display: flex;
     flex-direction: column;  
+    position: relative;
+    z-index: 1;
+    gap: 12px;
+    margin-top: 6px;
+    padding-top: 6px;
 }
+
+/* .history-list-container .transaction-scroll::after {    
+    content: "";
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 32px; 
+    width: 2px;
+    background-color: red;    
+} */
 
 .history-list-container .history-card {
     display: flex;
@@ -703,12 +738,32 @@ header {
     width: 100%;
     font-size: 1.1em;
     transition: transform 0.2s ease;  
+    position: relative;
+}
 
+.history-list-container .history-card::after {
+    content: "";
+    position: absolute;
+    left: 27px;
+    top: 60px;
+    bottom: 0;
+    width: 1px;
+    filter: blur(1px);
+    background-color: rgba(199, 202, 203, 0.719);
+
+}
+
+.history-list-container .history-card:last-child::after {
+    display: none;
+}
+
+.history-list-container .history-card:hover {
+    transform: translateY(-2px);
 }
 
 .history-list-container .history-card .history-desc {
     border-bottom: 1px solid rgba(231, 236, 237, 0.719);
-    margin: 12px 12px 0 12px;
+    margin: 0 12px;
     flex: 1;             
     min-width: 0;        
     display: flex;
@@ -747,16 +802,34 @@ header {
 .history-list-container .history-card .history-desc .history-upper-desc .history-left-desc .first,
 .history-list-container .history-card .history-desc .history-upper-desc .history-left-desc .transaction-name-desc { font-weight: bold;}
   
-.history-list-container .history-card .bi {
+.history-list-container .history-card .bi.mode-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;    
     border: none;
     border-radius: 50%;
     padding: 8px;
-    margin: 12px 4px;
+    width: 32px;
+    height: 32px;
+    margin: 0 4px;
     font-size: 1em;
+    position: relative;
+    z-index: 3;
 }
+
+/* .history-list-container .history-card .bi.mode-icon::after {
+    content: "";
+    position: absolute;
+
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%);
+
+    width: 2px;
+    height: 100%;
+
+    background-color: red;
+} */
 
 .history-list-container .history-card .bi.bi-plus-lg {
     background-color: rgb(216, 255, 208);  
@@ -787,21 +860,38 @@ header {
     border-radius: 8px;
 }
 
-.history-list-container .history-card .history-desc .history-lower-desc.not-edited .added-transaction,
-.history-list-container .history-card .history-desc .history-lower-desc.not-edited .income-transaction {
+.added-transaction,
+.income-transaction {
     background-color: rgb(155, 255, 135);
     color: rgb(18, 108, 0);
 }
 
-.history-list-container .history-card .history-desc .history-lower-desc.not-edited .deleted-transaction,
-.history-list-container .history-card .history-desc .history-lower-desc.not-edited .expense-transaction {
+.deleted-transaction,
+.expense-transaction {
     background-color: rgb(255, 180, 180);
     color: rgb(108, 0, 0);  
 }
 
-.history-list-container .history-card .history-desc .history-lower-desc.not-edited .category-transaction {
+.name-transaction {
+    background-color: rgb(167, 251, 255);
+    color: rgb(22, 130, 254); 
+}
+
+.amount-transaction {
+    background-color: rgb(255, 251, 199);
+    color: rgb(150, 161, 0);  
+
+}
+
+.category-transaction,
+.date-transaction {
     background-color: rgb(211, 225, 255);  
     color: rgb(7, 135, 255);  
+}
+
+.diff {
+    background-color: rgb(237, 216, 255);  
+    color: rgb(104, 59, 255);      
 }
 
 .history-list-container .history-card .history-desc .history-lower-desc.edited {
@@ -872,6 +962,7 @@ header {
     align-items: center;
     width: 80%;
     height: 32px;
+    margin-top: 4px;
     color: rgb(100, 100, 100); 
 }
 
@@ -879,7 +970,13 @@ header {
     display: flex;
     align-items: center;
     height: 32px;
-    width: 50%;
+    width: 50%;    
+}
+
+.key-value .value {
+    border: none;
+    padding: 2px 8px;
+    border-radius: 8px;    
 }
 
 .key-value .key .bi {
@@ -887,4 +984,5 @@ header {
     align-items: center;
     justify-content: center;
     width: 20px;
+    margin: 0px 4px;
 }
