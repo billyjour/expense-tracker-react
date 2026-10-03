@@ -923,6 +923,13 @@ header .right-header .prof-pict {
     position: relative;
 }
 
+.history-list-container .history-card .history-desc .history-lower-desc.edited .before-edited-transaction,
+.history-list-container .history-card .history-desc .history-lower-desc.edited .after-edited-transaction {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
 .history-list-container .history-card .history-desc .history-lower-desc.edited .after-edited-transaction::before {
     content: "";
     position: absolute;
@@ -936,7 +943,7 @@ header .right-header .prof-pict {
 .history-list-container .history-card .history-desc .history-lower-desc.edited .before-edited-transaction .header-transaction,
 .history-list-container .history-card .history-desc .history-lower-desc.edited .after-edited-transaction .header-transaction {
     display: inline-block;
-    width: 15%;
+    width: 20%;
     text-align: center;
     padding: 4px 2px;
     border: none;
@@ -957,7 +964,7 @@ header .right-header .prof-pict {
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 80%;
+    width: 90%;
     height: 32px;
     margin-top: 4px;
     color: rgb(100, 100, 100); 
@@ -974,6 +981,7 @@ header .right-header .prof-pict {
     border: none;
     padding: 2px 8px;
     border-radius: 8px;    
+    width: auto;
 }
 
 .key-value .key .bi {
@@ -984,7 +992,7 @@ header .right-header .prof-pict {
     margin: 0px 4px;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 768px) {
     .side-nav {
         display: flex;
         flex-direction: row;
@@ -1021,7 +1029,7 @@ header .right-header .prof-pict {
     }
 }   
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 480px) {
 
     * {
         overflow-y: auto;
