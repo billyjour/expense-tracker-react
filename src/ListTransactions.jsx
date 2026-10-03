@@ -206,7 +206,7 @@ function ListTransactions({ transactions, setTransactions, search, setSearch, so
             case 'business':     return <i className="bi bi-buildings-fill"></i>
             case 'investment':   return <i className="bi bi-bar-chart-fill"></i>
             case 'gift':         return <i className="bi bi-gift-fill"></i>;
-            case 'other-income': return <i className="bi bi-piggy-bank-fill"></i>;
+            case 'other':        return <i className="bi bi-piggy-bank-fill"></i>;
         }
     }
 
@@ -331,7 +331,7 @@ function ListTransactions({ transactions, setTransactions, search, setSearch, so
                                 <option value="business">       🏪 Business     </option>
                                 <option value="investment">     📈 Investment   </option>
                                 <option value="gift">           🎁 Gift         </option>
-                                <option value="other-income">   💰 Other        </option>
+                                <option value="other">          💰 Other        </option>
                             </select>                            
                         </div>
                         <div className="view-transaction">
