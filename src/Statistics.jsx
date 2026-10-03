@@ -1,6 +1,6 @@
 import { ResponsiveContainer, PieChart, Pie, Tooltip, Legend, Sector } from 'recharts';
 
-const isMobile = window.innerWidth <= 400;
+const isMobile = window.innerWidth <= 480;
 const categoryColors = {
     food: "#FF6384",
     utilities: "#36A2EB",
