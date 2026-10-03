@@ -91,6 +91,7 @@ header .right-header .prof-pict {
 }
 
 .finance-container {
+    width: 100%;
     background-color: whitesmoke;
     box-shadow:     
         0 2px 4px -1px rgba(0, 0, 0, 0.2),  
@@ -1070,6 +1071,10 @@ header .right-header .prof-pict {
         font-size: 0.7em;
     }
 
+    .finance-container {
+        width: auto;
+    }
+
     .finance-info {
         display: flex;
         flex-direction: column;
@@ -1099,10 +1104,11 @@ header .right-header .prof-pict {
     .add-and-statistics-container {
         display: flex;
         flex-direction: column;
+        width: 100%;
     }
 
     .transaction-container {
-        width: 100%;
+        width: auto;
         margin-bottom: 0;       
     }
 
@@ -1137,7 +1143,7 @@ header .right-header .prof-pict {
     }    
     
     .graph-container.charts {
-        width: 100%;
+        width: auto;
         display: flex;
         flex-direction: column;
     }    
