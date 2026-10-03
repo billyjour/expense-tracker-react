@@ -1,5 +1,6 @@
 import { ResponsiveContainer, PieChart, Pie, Tooltip, Legend, Sector } from 'recharts';
 
+const isMobile = window.innerWidth <= 400;
 const categoryColors = {
     food: "#FF6384",
     utilities: "#36A2EB",
@@ -89,7 +90,6 @@ function Statistics({expenseChartData, incomeChartData, isAnimationActive = true
                 alignItems: "center",
                 width: "100%",
                 fontSize: "0.8em",
-                transform: "translateY(15px)"
             }}>
                 {payload.map((entry) => (
                     <span key={entry.value} >
@@ -116,9 +116,14 @@ function Statistics({expenseChartData, incomeChartData, isAnimationActive = true
         <div className="graph-container charts">
             <div className="chart">
                 <h3 style={{ fontSize: "1em" ,marginBottom : 0,  paddingBottom: 0}}>Expense by Category</h3>
-                <ResponsiveContainer width="100%" height={270}>
-                    <PieChart   
-                        margin={{ top: 0, right: 0, bottom: 0, left: 40 }}>
+                <ResponsiveContainer width="100%" height="90%">
+                    <PieChart
+                        margin={
+                            isMobile
+                                ? { top: 20, right: 0, bottom: 20, left: 0 }
+                                : { top: 0, right: 0, bottom: 0, left: 40 }
+                            }   
+                        >
                         <Pie
                             activeShape={renderActiveShape}
                             data={expenseChartData}
@@ -138,9 +143,14 @@ function Statistics({expenseChartData, incomeChartData, isAnimationActive = true
             </div>
             <div className="chart">
                 <h3 style={{ fontSize: "1em" ,marginBottom : 0,  paddingBottom: 0}}>Income by Category</h3>                
-                <ResponsiveContainer width="100%" height={270}>
-                    <PieChart   
-                        margin={{ top: 0, right: 40, bottom: 0, left: 0 }}>
+                <ResponsiveContainer width="100%" height="90%">
+                    <PieChart
+                        margin={
+                            isMobile
+                                ? { top: 20, right: 0, bottom: 20, left: 0 }
+                                : { top: 0, right: 40, bottom: 0, left: 0 }
+                            }   
+                        >
                         <Pie
                             activeShape={renderActiveShape}
                             data={incomeChartData}
