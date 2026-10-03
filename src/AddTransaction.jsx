@@ -89,7 +89,7 @@ function AddTransaction({ setTransactions, category, setCategory, setBalance, se
                         <option value="business">       🏪 Business     </option>
                         <option value="investment">     📈 Investment   </option>
                         <option value="gift">           🎁 Gift         </option>
-                        <option value="other-income">   💰 Other        </option>
+                        <option value="other">          💰 Other        </option>
                     </select>
                 </div>
 
