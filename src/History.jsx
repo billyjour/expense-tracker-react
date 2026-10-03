@@ -66,7 +66,7 @@ function History({ historyTransactions }){
             <div className="transaction-scroll">
                 {displayedHistoryTransactions.map((transaction) => {
                     const date = new Date(transaction.timeHistory);
-                    const formattedDate = date.toLocaleDateString("id-ID", {
+                    const formattedDate = date.toLocaleDateString("en-GB", {
                         day: "2-digit",
                         month: "short",
                         year: "numeric"
