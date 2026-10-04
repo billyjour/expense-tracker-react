@@ -1117,7 +1117,7 @@ header .right-header .prof-pict {
     .add-transaction-form-label {
         display: flex;
         flex-direction: column;
-        width: 48%;
+        width: 50%;
     }
 
     .onclick-btns button[type="button"]{
@@ -1135,11 +1135,11 @@ header .right-header .prof-pict {
     }
 
     .add-transaction-form-date input[type="date"] {
-        width: 88%;
+        width: auto;
     }
 
     .transaction-container form button[type="submit"] {
-        width: 90%;
+        width: 100%;
     }    
     
     .graph-container.charts {
